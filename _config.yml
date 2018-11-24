@@ -274,6 +274,10 @@ compress_html:
   ignore:
     envs: development
 
+comments:
+  provider               : "disqus"
+  disqus:
+    shortname            : dev-hundred-blog # Short-name
 
 # Defaults
 defaults:
@@ -285,7 +289,7 @@ defaults:
       layout: single
       author_profile: true
       read_time: true
-      comments: # true
+      comments: true
       share: true
       related: true
   #>>>>>>>>>>>>>>>>>>> 여기서부터 추가 됨
