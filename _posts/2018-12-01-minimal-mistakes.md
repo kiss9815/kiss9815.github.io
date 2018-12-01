@@ -189,9 +189,6 @@ minimal-mistake에서 [샘플](https://github.com/mmistakes/minimal-mistakes/tre
  ㄴtag-archive.md
 ```
 
-이런 구조가 되겠군요.
-
-추가적으로 필요한 페이지가 있다면 가져오시면 되겠습니다.
 
 
 `about.md` 페이지를 제외한 나머지 페이지들은 크게 수정할 부분이 없으니 그대로 사용하고, about 페이지는 개인의 취향에 맞게 수정하여 사용하시면 됩니다.
@@ -260,7 +257,7 @@ tags: # 태그 사용
 
 categories: #카테고리
   - category a
-
+2018-
 author_profile: true / false #작성자 프로필 출력여부
 read_time: false # read_time을 출력할지 여부 1min read 같은것!
 
