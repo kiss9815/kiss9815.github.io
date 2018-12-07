@@ -37,6 +37,12 @@ toc_sticky: true
 ## 횡단 관심
 
 ## 웹
+    DispatcherServlet - 클라이언트 요청을 받고, 클라이언트에게 요청을 전달
+    HandelerMapping - 클라이언트의 요청 URL을 어떤 컨트롤러가 처리할지 결정
+    Controller  - 클라이언트의 요청을 처리
+    ModelAndView - 뷰에 필요한 정보를 담는 그릇
+    ViewResolver - 처리 결과 생성할 뷰를 결정
+    View - 컨트롤러 처리 결과 화면
 
 ## 데이터
 ## 스프링 프로젝트
