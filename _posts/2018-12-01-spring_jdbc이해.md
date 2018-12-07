@@ -11,7 +11,7 @@ toc: true
 toc_sticky: true
 ---
 
-#DAO 란
+# DAO 란
     DAO(Data Access Object)는 실제로 DB에 접근하는 객체이다.
 
     Service와 DB를 연결하는 고리의 역할을 한다.
@@ -30,21 +30,21 @@ toc_sticky: true
 # Spring JDBC란?
     JDBC의 장점과 단순성을 그대로 유지하면서도 기존 JDBC의 단점을 극복할 수 있게 해주고, 간결한 형태의 API 사용법을 제공하며, JDBC API에서 지원되지 않는 편리한 기능을 제공.
      - Spring JDBC는 반복적으로 해야하는 많은 작업들을 대신 해줌.
-    
+
      - Spring JDBC를 사용할 때는 실행할 SQL과 바인딩 할 파라미터를 넘겨주거나, 쿼리 실행 결과를 어떤 객체에 넘겨 받을지를 지정만 하면 된다.
-    
+
      - Spring JDBC를 사용하려면 먼저, DB 커넥션을 가져오는 DataSource를 Bean으로 등록해야 한다.
 
 #Spring JDBC가 해주는 작업
-     
+
      Connection 열기와 닫기
       - Connection과 관련된 모든 작업을 Spring JDBC가 필요한 시점에서 알아서 진행.
       - 진행 중에 예외가 발생했을 때도 열린 모든 Connection 객체를 닫아줌.
-     
+
      Statement 준비와 닫기
       - SQL 정보가 담긴 Statement 또는 PreparedStatement를 생성하고 필요한 준비 작업을 해주는 것도 Spring JDBC가 한다.
       - Statement도 Connection과 마찬가지로 사용이 끝나고 나면 Spring JDBC가 알아서 객체를 닫아줌.
-     
+
      Statement 실행
       - SQL이 담긴 Statement를 실행하는 것도 Spring JDBC가 해줌.
       - Statement의 실행 결과는 다양한 형태로 가져올 수 있다.
@@ -53,11 +53,11 @@ toc_sticky: true
      Exception 처리와 반환
       - JDBC 작업 중 발생하는 모든 예외는 Spring JDBC예외 변환기가 처리.
       - Checked Exception인 SQLException을 Runtime Exception인 DataAccessException 타입으로 변환.
-     
+
      Transaction 처리
       - Spring JDBC를 사용하면 transaction과 관련된 모든 작업에 대해서는 신경 쓰지 않아도 됨.
        * Transaction과 관련된 작업 : Commit, Rollback 등 작업의 단위
-     
+
 # JDBC Template 이란?
     JDBC Template은 내부적으로 JDBC API를 사용하지만 위와 같은 JDBC API의 문제점들을 제거한 형태의 Spring에서 제공하는 class이다.
 
@@ -77,7 +77,7 @@ toc_sticky: true
     SimpleJdbcTemplate
     SimpleJdbcInsert 및 SimpleJdbcCall
     Spring framework는 JDBC DB 접근에 대해 위와 같은 접근 방법을 제공한다.
-    
+
     JdbcTemplate이 제공하는 기능
         실행 : Insert나 Update같이 DB의 데이터에 변경이 일어나는 쿼리를 수행하는 작업
         조회 : Select를 이용해 데이터를 조회하는 작업
@@ -105,7 +105,7 @@ toc_sticky: true
     --------------
     커넥션 풀링은 미리 정해진 갯수만큼의 DB 커넥션을 풀에 준비해두고, 어플리케이션이 요청할 때마다 Pool에서 꺼내서 하나씩 할당해주고 다시 돌려받아서 Pool에 넣는 식의 기법.
     Spring에서는 DataSource를 공유 가능한 Spring Bean으로 등록해주어 사용할 수 있도록 해줌.
-    
+
 -----------------------
 
     DB Server에 관한 정보(Parameter)를 설정 (* 설정 방법 아래 참고)
@@ -148,4 +148,3 @@ toc_sticky: true
     org.apache.commons.dbcp.BasicDataSource
     jdbc driver: mysql-connector-java
     com.mysql.jdbc.Driver
-
