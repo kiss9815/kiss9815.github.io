@@ -54,6 +54,25 @@ toc_sticky: true
 ## 스프링 데이터
 
 ## 스프링 배치
+    리눅스 crontab 대신
+    ```xml
+    <!-- Spring Batch dependencies -->
+           <dependency>
+               <groupId>org.springframework.batch</groupId>
+               <artifactId>spring-batch-core</artifactId>
+               <version>${spring.batch.version}</version>
+           </dependency>
+           <dependency>
+               <groupId>org.springframework.batch</groupId>
+               <artifactId>spring-batch-infrastructure</artifactId>
+               <version>${spring.batch.version}</version>
+           </dependency>
+   ```
+  ```xml
+  <batch:job id="job1">
+  (...)
+</batch:job>
+    ```
 
 ## 스프링 시큐리티
 
