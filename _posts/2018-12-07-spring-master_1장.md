@@ -1,6 +1,6 @@
 ---
-title: "스프링 5.0 master"
-excerpt: "스프링 5.0 master"
+title: "스프링 5.0 master 1장"
+excerpt: "스프링 5.0 master 1장"
 categories:
   - blogging
 tags:
@@ -13,7 +13,7 @@ toc_sticky: true
 # 스프링 프레임워크 5.0의 발전
 
 ## EJB 문제점
-    Servlet 클래스 상속받아 구현
+
 
 ## 스프링 프레임워크 인기 있는 이유
     POJO 라는 개념때문
@@ -22,6 +22,11 @@ toc_sticky: true
 
 
 ## 복잡한 코드 감소
+Connection 열기와 닫기
+Transaction 처리
+PreparedStatement 생성
+
+
 
 ## 아키텍처의 유연성
 
@@ -44,18 +49,29 @@ toc_sticky: true
     ViewResolver - 처리 결과 생성할 뷰를 결정
     View - 컨트롤러 처리 결과 화면
 
+    ![MVC패턴 순서도](https://img1.daumcdn.net/thumb/R1920x0/?fname=http%3A%2F%2Fcfile9.uf.tistory.com%2Fimage%2F2247684E565C0219136F9D)
+
+
 ## 데이터
+Spring JDBC 가 JDBC 단점 보완
+ORM - 쿼리 생성, ResultSet 매핑
+OXM - object xml mapping - 마샬링, 언마샬 - JAXB, Castor, XMLBeans, JiBX, XStream
+
 ## 스프링 프로젝트
 
 ## 스프링 부트
+빌드하면 단일 jar 파일
+Web 어플리케이션의 경우, 내장 Tomcat을 시작
 
 ## 스프링 클라우드
 
 ## 스프링 데이터
 
+
 ## 스프링 배치
     리눅스 crontab 대신
-    ```xml
+
+    ```
     <!-- Spring Batch dependencies -->
            <dependency>
                <groupId>org.springframework.batch</groupId>
@@ -68,10 +84,10 @@ toc_sticky: true
                <version>${spring.batch.version}</version>
            </dependency>
    ```
-  ```xml
+  ```
   <batch:job id="job1">
-  (...)
-</batch:job>
+
+  </batch:job>
     ```
 
 ## 스프링 시큐리티
@@ -126,9 +142,8 @@ toc_sticky: true
         (9) 테스트 환경이 개선되었다. Framework 레벨에서 Mock 을 위한 ServletContext 를 별도로 지원한다.
     - 3. Spring 5.0
         Spring 5.0 은 JDK 8+, 9 등에 대해서 지원하며 Java8을 표준으로 사용한다.
-        (1) 코어로직에 있어서 JDK 8의 특징들이 강화되었다.
-        (2) HTTP 메시지 코덱의 XML과 JSON 지원에 대한 구현이 Encoder 와 Decoder 의 사용을 통해 추상화 되었다.
-        (3) 웹에 대한 지원이 향상되었다. 특히 Protobuf 3.0 지원이 적용되었다.
-        (4) Reactive Programming
-
-        (5) 코틀린 지원
+        1). 코어로직에 있어서 JDK 8의 특징들이 강화되었다.
+        2).  HTTP 메시지 코덱의 XML과 JSON 지원에 대한 구현이 Encoder 와 Decoder 의 사용을 통해 추상화 되었다.
+        4). Reactive Programming
+            비동기적인 데이터 처리를 간단한 함수를 통해 수행하는 프로그래밍
+        5). 코틀린 지원

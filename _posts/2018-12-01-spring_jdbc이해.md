@@ -35,13 +35,12 @@ toc_sticky: true
 
      - Spring JDBC를 사용하려면 먼저, DB 커넥션을 가져오는 DataSource를 Bean으로 등록해야 한다.
 
-#Spring JDBC가 해주는 작업
+# Spring JDBC가 해주는 작업
 
      Connection 열기와 닫기
       - Connection과 관련된 모든 작업을 Spring JDBC가 필요한 시점에서 알아서 진행.
       - 진행 중에 예외가 발생했을 때도 열린 모든 Connection 객체를 닫아줌.
 
-     Statement 준비와 닫기
       - SQL 정보가 담긴 Statement 또는 PreparedStatement를 생성하고 필요한 준비 작업을 해주는 것도 Spring JDBC가 한다.
       - Statement도 Connection과 마찬가지로 사용이 끝나고 나면 Spring JDBC가 알아서 객체를 닫아줌.
 
