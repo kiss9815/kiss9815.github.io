@@ -4,8 +4,8 @@ excerpt: "FTP 보안 프로토콜"
 categories:
   - blogging
 tags:
-  - ftp, web
-last_modified_at: 2018-12-2201T13:00:00+09:00
+  - ftp, network
+last_modified_at: 2018-12-26T13:00:00+09:00
 toc: true
 toc_sticky: true
 ---
