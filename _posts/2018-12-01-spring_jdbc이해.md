@@ -147,3 +147,10 @@ toc_sticky: true
     org.apache.commons.dbcp.BasicDataSource
     jdbc driver: mysql-connector-java
     com.mysql.jdbc.Driver
+
+# JDBC 와 DBCP  
+
+    JDBC에서 가장 시간이 많이 소요되는 부분이 Connection 맺는 부분
+
+    Java 에서 Database 와 연결하기 위해 JDBC 필요
+    JDBC 이용해 생성한 Connection을 효율저그로 활용하기 위해 Connection 객체를 관리하는 것을 DBCP의 개념으로 본다.
