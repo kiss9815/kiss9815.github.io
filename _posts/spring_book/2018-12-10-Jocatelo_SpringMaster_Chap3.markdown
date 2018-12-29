@@ -1,10 +1,14 @@
-20---
-layout: post
-title:  "스프링 MVC 웹 애플리케이션 구축"
-categories:  스터디, Java
-tags: [Spring, Web, Java, Study]
 ---
-본 포스트는 스프링 5.0 마스터를 스터디하기 위하여, 스프링 5.0 마스터의 3장 스프링 MVC 웹 애플리케이션 구축의 내용을 메모 및 요약한 것이다.
+title: "스프링 5.0 master 3장"
+excerpt: "스프링 MVC 웹 애플리케이션 구축"
+categories:
+  - blogging
+tags:
+  - spring-master책
+last_modified_at: 2018-12-07T19:00:00+09:00
+toc: true
+toc_sticky: true
+---
 
 # 자바 웹 애플리케이션 아키텍처
 

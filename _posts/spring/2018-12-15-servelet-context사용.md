@@ -1,6 +1,6 @@
 ---
-title: "스프링 5.0 master 1장"
-excerpt: "스프링 5.0 master 1장"
+title: "servelt context 사용"
+excerpt: "spring servelt context 사용"
 categories:
   - blogging
 tags:

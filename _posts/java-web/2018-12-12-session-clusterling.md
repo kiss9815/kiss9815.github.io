@@ -1,6 +1,6 @@
 ---
-title: "FTP 보안 프로토콜"
-excerpt: "FTP 보안 프로토콜"
+title: "session clusterling"
+excerpt: "세션 클러스터링"
 categories:
   - blogging
 tags:
@@ -10,4 +10,4 @@ toc: true
 toc_sticky: true
 ---
 
-# 1. WAS 이중화 방법 및 세션 클러스터링 
+# 1. WAS 이중화 방법 및 세션 클러스터링
