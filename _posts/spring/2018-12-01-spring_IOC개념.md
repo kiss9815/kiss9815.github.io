@@ -12,11 +12,11 @@ toc_sticky: true
 
  IoC란 프로그램의 제어 흐름 구조가 바뀌는 것
 
-    
+
 
     ** 일반적인 프로그램의 흐름 구조는
 
-       main()과 같은 프로그램이 시작되는 지점에서 사용할 오브젝트를 결정, 생성하고, 생성된 오브젝트 내의 메소드를 
+       main()과 같은 프로그램이 시작되는 지점에서 사용할 오브젝트를 결정, 생성하고, 생성된 오브젝트 내의 메소드를
 
            호출하는 작업을 반복하는 구조이다.
            즉, 모든 종류의 작업을 사용하는 쪽에서 제어하는 구조
@@ -33,7 +33,7 @@ toc_sticky: true
        - Object는 자신이 어떻게 생성되고 어떻게 사용되는 지 알 수 없다.
        - 모든 Object는 제어권한을 위임받은 특별한 Object에 의해서 만들어지고 사용된다.    
 
-    
+
 
     # IoC 구현방법
     .DL (Dependency Lookup)  - 의존성 검색
@@ -52,12 +52,12 @@ toc_sticky: true
     .bean - 스프링에서는 제어권을 가지고 직접 만들고 관계를 부여하는 오브젝트
        자바빈, EJB의 빈과 비슷한 오브젝트 단위의 어플리케이션 컴포넌트를 의미.
        스프링 빈은 스프링 컨테이너가 생성, 관계설정, 사용등을 제어해주는 오브젝트를 가리킨다.
-    
-     .bean factory : 스프링의 IoC를 담당하는 핵심 컨테이너	
+
+     .bean factory : 스프링의 IoC를 담당하는 핵심 컨테이너
          빈을 등록/ 생성/조회/반환/관리 한다. bean factory를 바로 사용하지 않고 이를 확장한 Application Context를 이용한다.  
 
       BeanFactory는 bean factory가 구현하는 Interface 이다. (getBean()등의 메소드가 정의)  
-    
+
      .application Context - bean Factory를 확장한 IoC 컨테이너 	
          빈을 등록/생성/조회/반환/관리 기능과 함께 스프링의 각종 부가 서비스를 추가로 제공한다.
 
@@ -72,9 +72,8 @@ toc_sticky: true
        IoC 방식으로 bean을 관리한다는 의미에서 bean factory나 application context를 가리킨다.
        (spring container = application context)
        application context는 그 자체로는 ApplicationContext인터페이스를 구현한 오브젝트를 의미한다.
-           하나의 어플리케이션에서는 보통 여러 개의 ApplicationContext Object가 만들어진다. 
+           하나의 어플리케이션에서는 보통 여러 개의 ApplicationContext Object가 만들어진다.
            이를 통칭해서 spring container라고 부른다.
            객체를 관리하는 컨테이너
 
      . spring framework : IoC container, application context를 포함해서 스프링에서 제공하는 모든 기능을 통칭  
-

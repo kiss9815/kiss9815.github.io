@@ -4,7 +4,7 @@ excerpt: "MSA"
 categories:
   - blogging
 tags:
-  - spring
+  - spring-master책
 last_modified_at: 2018-12-07T19:00:00+09:00
 toc: true
 toc_sticky: true
