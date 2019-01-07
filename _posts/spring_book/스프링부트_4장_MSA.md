@@ -2,7 +2,7 @@
 title: "스프링 5.0 master 4장"
 excerpt: "MSA"
 categories:
-  - blogging
+  - spring
 tags:
   - spring-master책
 last_modified_at: 2018-12-07T19:00:00+09:00

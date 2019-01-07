@@ -1,10 +1,10 @@
 ---
 title: "table_info"
-excerpt: "jekyll 설정 내용"
+excerpt: "oracle table info query"
 categories:
-  - pending
+  - sql
 tags:
-  - jekyll
+  - oracle table info
 last_modified_at: 2019-01-03T13:00:00+09:00
 toc: true
 toc_sticky: true

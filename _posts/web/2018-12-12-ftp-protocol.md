@@ -2,7 +2,7 @@
 title: "FTP 보안 프로토콜"
 excerpt: "FTP 보안 프로토콜"
 categories:
-  - blogging
+  - web
 tags:
   - ftp, network
 last_modified_at: 2018-12-26T13:00:00+09:00

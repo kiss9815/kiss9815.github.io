@@ -2,7 +2,7 @@
 title: "스프링 IOC개념"
 excerpt: "스프링 IOC개념"
 categories:
-  - blogging
+  - spring
 tags:
   - spring
 last_modified_at: 2018-12-01T13:00:00+09:00

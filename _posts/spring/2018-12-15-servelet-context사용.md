@@ -2,7 +2,7 @@
 title: "servelt context 사용"
 excerpt: "spring servelt context 사용"
 categories:
-  - blogging
+  - spring
 tags:
   - spring
 last_modified_at: 2018-12-07T19:00:00+09:00

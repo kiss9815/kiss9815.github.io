@@ -2,7 +2,7 @@
 title: "spring-boot 프로젝트 thymeleaf 설정"
 excerpt: "spring-boot 프로젝트 thymeleaf 설정"
 categories:
-  - blogging
+  - spring
 tags:
   - spring-boot
 last_modified_at: 2018-12-29T13:00:00+09:00

@@ -2,7 +2,7 @@
 title: "AJP(Apache JServ Protocol)"
 excerpt: "AJP(Apache JServ Protocol)"
 categories:
-  - blogging
+  - apache
 tags:
   - apache, web, ajp
 last_modified_at: 2018-12-26T13:00:00+09:00
