@@ -9,7 +9,7 @@ last_modified_at: 2019-01-03T13:00:00+09:00
 toc: true
 toc_sticky: true
 ---
-
+sts.ini 의 memory 설정 out of memory
 
 이클립스가 설치된 폴더에 보면 STS.ini 라는 파일이 있다 (이클립스의 경우는 eclipse.ini 이다.)
 

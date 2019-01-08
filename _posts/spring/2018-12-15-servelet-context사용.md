@@ -1,6 +1,5 @@
 ---
 title: "servelt context 사용"
-excerpt: "spring servelt context 사용"
 categories:
   - spring
 tags:

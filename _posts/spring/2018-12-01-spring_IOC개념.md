@@ -1,6 +1,5 @@
 ---
 title: "스프링 IOC개념"
-excerpt: "스프링 IOC개념"
 categories:
   - spring
 tags:

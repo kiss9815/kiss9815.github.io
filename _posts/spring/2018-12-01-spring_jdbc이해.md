@@ -1,6 +1,5 @@
 ---
 title: "스프링 jdbc 이해하기"
-excerpt: "스프링 jdbc 이해하기"
 categories:
   - spring
 tags:

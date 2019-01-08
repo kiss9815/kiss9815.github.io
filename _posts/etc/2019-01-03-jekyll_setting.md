@@ -1,6 +1,5 @@
 ---
 title: "jekyll 설정"
-excerpt: "jekyll 설정 내용"
 categories:
   - etc
 tags:

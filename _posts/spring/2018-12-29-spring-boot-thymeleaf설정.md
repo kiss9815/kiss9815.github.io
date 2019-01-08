@@ -1,6 +1,5 @@
 ---
 title: "spring-boot 프로젝트 thymeleaf 설정"
-excerpt: "spring-boot 프로젝트 thymeleaf 설정"
 categories:
   - spring
 tags:

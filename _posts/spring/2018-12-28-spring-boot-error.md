@@ -1,6 +1,5 @@
 ---
 title: "spring-boot 시작 오류 잡기"
-excerpt: "spring-boot 시작 오류 잡기"
 categories:
   - spring
 tags:

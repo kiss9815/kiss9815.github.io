@@ -1,6 +1,5 @@
 ---
 title: "spring-boot 프로젝트 시작하기"
-excerpt: "spring-boot 프로젝트 시작하기"
 categories:
   - spring
 tags:
