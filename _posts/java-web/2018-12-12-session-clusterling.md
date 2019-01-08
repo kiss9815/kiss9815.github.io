@@ -2,7 +2,7 @@
 title: "session clusterling"
 excerpt: "세션 클러스터링"
 categories:
-  - blogging
+  - java-web
 tags:
   - was, session, web
 last_modified_at: 2018-12-26T13:00:00+09:00

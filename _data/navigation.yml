@@ -1,15 +1,13 @@
 # main links
 main:
-  - title: "About" # 네비게이션 바에 표시 되는 이름
-    url: "/about/" # 클릭시 이동할 URL
+  # - title: "About" # 네비게이션 바에 표시 되는 이름
+  #   url: "/about/" # 클릭시 이동할 URL
   - title: "Category"
     url: /categories/ #_pages dir의 파일내 permalink: /categories/ 와 연결됨
   - title: "Archive"
     url: /year-archive/
   - title: "tag"
     url: /tags/
-  - title: "Category"
-    url: /categories/
   # - title: "Sample Collections"
   #   url: /collection-archive/
   # - title: "Sitemap"

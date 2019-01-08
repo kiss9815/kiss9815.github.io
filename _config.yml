@@ -16,9 +16,9 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Site Title"
+title                    : "juntae git blog"
 title_separator          : "-"
-name                     : "Your Name"
+name                     : "juntae eom"
 description              : "An amazing website."
 url                      : "https://kiss9815.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
