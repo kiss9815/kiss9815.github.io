@@ -1,10 +1,9 @@
 ---
-title: "table_info"
-excerpt: "oracle table info query"
+title: "oracle table_info 확인하기"
 categories:
   - sql
 tags:
-  - oracle table info
+  - system query
 last_modified_at: 2019-01-03T13:00:00+09:00
 toc: true
 toc_sticky: true
