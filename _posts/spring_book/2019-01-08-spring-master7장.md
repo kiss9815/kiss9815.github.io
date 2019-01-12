@@ -169,20 +169,54 @@ public class ApplicationConfiguration {
 ```
 ConfigurationProperties 기능을 통해 애플리케이션 구성에 더 나은 접근 방식 제공
 위 빈은 모든 애플리케이션 속성에 대한 중앙 리포지토리 역할 수행
-@ConfigurationProperties("application") 은 외부화된 구성에 대한 어노테이션으로 이 어노테이션을 모든 클래스에 추가하면
+@ConfigurationProperties("application") 은 외부화된 구성에 대한 어노테이션으로 이 어노테이션을 모든 클래스에 추가하면 외부 속성에 바인딩 할 수 있다.
+"application"(따옴표 안에 다른 이름 가능)의 값은 외부 구성을 이 빈에 바인딩하는 동안 접두사로 사용된다. - application.properties 파일의 접두사
+
+EX)
+```
+application.enableSwitchForService1=true
+application.service1Url=http:www.naver.com
+application.service1Timeout=250
+#이게 bean 값이 됨
+```
+@ConfigurationProperties("application") 을 사용한 class 를 @Autowired 로 사용해서 값을 불러 올 수 있다.
 
 ---
 war 파일 생성
 
+pom.xml 의 패키징 변경하면 war 배포 가능
+<packaging>WAR</packaging>
+
+대신 WAR 배포시 임베디드 톰캣이 포함되지 않아, 따로 추가하가너, 톰캣서버 및 웹 서버에 배포할 수 있다.5
+
 ---
 스프링 개발자 도구
 
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-devtools</artifactId>
+	<optional>true</optional>
+</dependency>
+
+1. 뷰 템플릿 및 정적 파일의 캐싱을 비활성화한다.
+2. 클래스 패스의 파일이 변경될때 자동으로 재시작됨.
+
+
+실시간 리로드 브라우져 확장도구
+http://livereload.com/extensions/
+
 ---
 스프링 부트 액추에이터
-
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
 ---
 HAL 브라우저
-
+<dependency>
+	<groupId>org.springframework.data</groupId>
+	<artifactId>spring-data-rest-hal-browser</artifactId>
+</dependency>
 ---
 빈즈
 
