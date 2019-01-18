@@ -1,8 +1,7 @@
 ---
 title: "Chocolatey window 패키지 매니저"
-excerpt: "Chocolatey window 패키지 매니저 설치 및 사용 방법"
 categories:
-  - pending
+  - openlib
 tags:
   - Chocolatey
 last_modified_at: 2019-01-03T13:00:00+09:00
@@ -10,6 +9,7 @@ toc: true
 toc_sticky: true
 ---
 
+## Chocolatey window 패키지 매니저 설치 및 사용 방법
 
 설치
 cmd.exe 를 열고 다음 명령어 실행
