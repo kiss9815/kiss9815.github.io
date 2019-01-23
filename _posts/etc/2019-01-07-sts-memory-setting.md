@@ -1,8 +1,7 @@
 ---
-title: "sts-setting out of memory"
-excerpt: "sts.ini 의 memory 설정 out of memory"
+title: "sts.ini 의 memory 설정 out of memory"
 categories:
-  - pending
+  - etc
 tags:
   - sts-setting
 last_modified_at: 2019-01-03T13:00:00+09:00
