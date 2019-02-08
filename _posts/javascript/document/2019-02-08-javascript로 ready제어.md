@@ -69,6 +69,9 @@ document.attachEvent("onreadystatechange", function(){
 });
 ```
 
+## 결론
+그냥 jquery 되면 ready 함수 쓰는게 나을거 같다.
+
 
 참고문헌
 > http://www.mybatis.org/spring/ko/mappers.html
