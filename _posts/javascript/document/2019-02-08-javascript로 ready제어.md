@@ -27,6 +27,11 @@ load 는 모든 resource 가 로드되고 실행
 $(window).on("load", function(){
   //이미지 사이즈를 계산하려는 경우나 필요
 });
+
+window.onload = function () {
+ //alert("로딩 완료");
+}
+
 ```
 
 ## 순수 자바스크립트로 ready() 대체
