@@ -1,0 +1,198 @@
+package com.air.interpark.config;
+
+import java.io.IOException;
+import java.util.Properties;
+
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.mvc.UrlFilenameViewController;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
+import org.springframework.web.servlet.view.velocity.VelocityView;
+import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
+
+import com.air.interpark.controller.InterCeptorController;
+
+@Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = { "com.air.interpark.*" })
+public class WebConfig extends WebMvcConfigurerAdapter {
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+		localeChangeInterceptor.setParamName("lang");
+
+		registry.addInterceptor(localeChangeInterceptor);
+		registry.addInterceptor(new InterCeptorController())
+			.addPathPatterns("/api/**");
+
+
+		registry.addInterceptor(new InterCeptorController())
+			.addPathPatterns("/mypage/**")
+			.excludePathPatterns("/mypage/calendar*")
+			.excludePathPatterns("/mypage/nationList.do")
+			.excludePathPatterns("/mypage/cityList.do")
+			.excludePathPatterns("/mypage/tasfbill.do")
+			.excludePathPatterns("/mypage/eticketBiz.do")
+			.excludePathPatterns("/mypage/eticketMail.do")
+			.excludePathPatterns("/mypage/eticketWS.do")
+		    .excludePathPatterns("/mypage/emailNL.do");
+
+		registry.addInterceptor(new InterCeptorController())
+			.addPathPatterns("/booking/getPassInfoListLayer.do")
+			.addPathPatterns("/booking/getPassInfoLayer.do")
+			.addPathPatterns("/booking/insPassInfoLayer.do")
+			.addPathPatterns("/booking/delPassInfoLayer.do")
+			.addPathPatterns("/booking/ajax/getPassInfoListAjax.do")
+			.addPathPatterns("/booking/ajax/prsViewApi.do");
+
+	}
+
+	@Bean
+	public LocaleResolver localeResolver() {
+		CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
+		cookieLocaleResolver.setDefaultLocale(StringUtils.parseLocaleString("en"));
+		return cookieLocaleResolver;
+	}
+
+	@Bean
+	public ViewResolver viewResolver() {
+		VelocityViewResolver viewResolver = new VelocityViewResolver();
+		viewResolver.setViewClass(VelocityView.class);
+		viewResolver.setToolboxConfigLocation("/WEB-INF/velocity-toolbox.xml");
+		viewResolver.setSuffix(".vm");
+		viewResolver.setCache(true);
+		viewResolver.setContentType("text/html; charset=UTF-8");
+		viewResolver.setOrder(1);
+
+		return viewResolver;
+	}
+
+	@Bean
+	public VelocityConfigurer velocityConfigurer() {
+		VelocityConfigurer velocityConfigurer = new VelocityConfigurer();
+		velocityConfigurer.setResourceLoaderPath("/WEB-INF/views/");
+
+		Properties p = new Properties();
+		p.setProperty("input.encoding", "UTF-8");
+		p.setProperty("out.encoding", "UTF-8");
+		velocityConfigurer.setVelocityProperties(p);
+
+		return velocityConfigurer;
+	}
+
+	@Bean
+	public ViewResolver jspViewResolver() {
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setViewClass(JstlView.class);
+		viewResolver.setPrefix("/WEB-INF/jspviews/");
+		viewResolver.setSuffix(".jsp");
+		viewResolver.setOrder(2);
+
+		return viewResolver;
+	}
+
+	@Bean(name = "UrlFilenameViewController")
+	public UrlFilenameViewController urlFilenameViewController() {
+		UrlFilenameViewController urlController = new UrlFilenameViewController();
+		return urlController;
+	}
+
+	@Bean
+	public SimpleUrlHandlerMapping simpleUrlHandlerMapping() {
+		SimpleUrlHandlerMapping simpleUrlHandlerMapping = new SimpleUrlHandlerMapping();
+		Properties mappings = new Properties();
+		mappings.setProperty("/jsp/**/**", "UrlFilenameViewController");
+		simpleUrlHandlerMapping.setMappings(mappings);
+
+		return simpleUrlHandlerMapping;
+	}
+
+//	@Bean
+//	public ContentNegotiatingViewResolver contentNegotiatingViewResolver() {
+//		ContentNegotiatingViewResolver contentNegotiatingViewResolver = new ContentNegotiatingViewResolver();
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("json", "application/json");
+//		map.put("xml", "application/xml");
+//		map.put("html", "text/plain");
+//
+//		contentNegotiatingViewResolver.setMediaTypes(map);
+//		//contentNegotiatingViewResolver.setOrder(0);
+//		contentNegotiatingViewResolver.setFavorParameter(true);// URL 호출시 특정 파라미터로 리턴포맷 설정 하기 위해.  (parameterName=format)
+//
+//		List<View> defaltViews = new ArrayList<View>();
+//
+//		/* 커스터마이징 한 View사용.
+//		MappingJackson2JsonView jackson2JsonView = new MappingJackson2JsonView();
+//		jackson2JsonView.setContentType("application/json;charset=UTF-8");
+//		*/
+//
+//		CustomMappingJacson2JsonView customMappingJacson2JsonView = new CustomMappingJacson2JsonView();
+//		customMappingJacson2JsonView.setContentType("application/json;charset=UTF-8");
+//		defaltViews.add(customMappingJacson2JsonView);
+//
+//		XStreamMarshaller xStreamMarshaller = new XStreamMarshaller();
+//		xStreamMarshaller.setAutodetectAnnotations(true);
+//
+//		// 언더바 2개 들어가는거 제거 시키기 위해..
+//		XmlFriendlyReplacer replacer = new XmlFriendlyReplacer("__", "_");
+//
+//		//XppDriver xppDriver = new XppDriver(replacer);
+//		DomDriver domDirver = new DomDriver("UTF-8", replacer);
+//		xStreamMarshaller.setStreamDriver(domDirver);
+//
+//		JaxbMarshaller jaxbMarshaller = new JaxbMarshaller();
+//
+//		MarshallingView marshallingView = new MarshallingView();
+//		marshallingView.setMarshaller(xStreamMarshaller);
+//		marshallingView.setContentType("application/xml;charset=UTF-8");
+//		//marshallingView.setModelKey("xmlData");
+//
+//		defaltViews.add(marshallingView);
+//		contentNegotiatingViewResolver.setDefaultViews(defaltViews);
+//
+//		return contentNegotiatingViewResolver;
+//	}
+
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("indexB");
+	}
+
+	@Bean
+	public MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setBasenames("messages");
+		messageSource.setDefaultEncoding("UTF-8");
+		messageSource.setCacheSeconds(0);
+		return messageSource;
+	}
+
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver getResolver() throws IOException {
+		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+		resolver.setMaxUploadSize(5242880 * 2);// 5MB입니다.
+		return resolver;
+	}
+}

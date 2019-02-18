@@ -1,0 +1,44 @@
+package com.air.interpark.config;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.NoHandlerFoundException;
+
+import com.air.interpark.common.LogUtil;
+
+@Slf4j
+@ControllerAdvice
+public class ExceptionHandlerConfig extends LogUtil {
+	@ExceptionHandler(PcdNotFoundException.class)
+	public ModelAndView handlerException(Exception e){
+		log.error(catchLog(e));
+
+		ModelAndView view = new ModelAndView();
+		view.addObject("error", "Auth");
+		view.setViewName("/errorPage/errorGate");
+		return view;
+	}
+
+	@ExceptionHandler(RuntimeException.class)
+	public ModelAndView runTimeException(RuntimeException e){
+		log.error(catchLog(e));
+
+		ModelAndView view = new ModelAndView();
+		view.addObject("error", "500");
+		view.setViewName("/errorPage/errorGate");
+		return view;
+	}
+
+	@ExceptionHandler(NoHandlerFoundException.class)
+	public ModelAndView NoHandlerFoundException(NoHandlerFoundException e){
+		log.error(catchLog(e));
+
+		ModelAndView view = new ModelAndView();
+		view.addObject("error", "404");
+		view.setViewName("/errorPage/errorGate");
+		return view;
+	}
+}

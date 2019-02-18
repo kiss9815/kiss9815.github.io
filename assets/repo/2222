@@ -1,0 +1,336 @@
+package com.air.interpark.config;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+
+@Slf4j
+@Configuration
+@ComponentScan(basePackages = { "com.air.interpark.*" })
+public class MybatisConfig {
+	/* 오라클 DB 설정 */
+	@Bean(name="dataSourceOracle")
+	public DataSource dataSourceOracle() throws Exception{
+		log.info("Make AIR DB connection Pool");
+		Context ctx = new InitialContext();
+		DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/oracle");
+
+		return dataSource;
+	}
+
+	@Bean(name="sqlSessionFactoryOracle")
+	public SqlSessionFactory sqlSessionFactoryOracle() throws Exception{
+		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		sqlSessionFactoryBean.setDataSource(dataSourceOracle());
+		sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/sqlmaps/oracle/*.xml"));
+
+		return sqlSessionFactoryBean.getObject();
+	}
+
+	@Bean(name="sqlSessionTemplateOracle")
+	public SqlSessionTemplate sqlSessionTemplateOracle() throws Exception{
+		SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactoryOracle());
+		return sqlSessionTemplate;
+	}
+
+	@Bean
+	public DataSourceTransactionManager dataSourceTransactionManager2() throws Exception{
+		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSourceOracle());
+		return dataSourceTransactionManager;
+	}
+
+	@Bean
+	public MapperScannerConfigurer mapperScannerConfigurer(){
+		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+		mapperScannerConfigurer.setBasePackage("com.air.interpark.mapper.oracle"); // 서로 다른 DB들은 같은 패키지를 보고 있으면 안된다..
+		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactoryOracle");
+		return mapperScannerConfigurer;
+	}
+	/* 오라클 DB 설정 끝 */
+
+	/* EVENT DB 설정*/
+	@Bean(name="dataSourceEvent")
+	public DataSource dataSourceEvent() throws Exception{
+		log.info("Make EVENT DB connection Pool");
+		Context ctx = new InitialContext();
+		DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/event");
+
+		return dataSource;
+	}
+
+	@Bean(name="sqlSessionFactoryEvent")
+	public SqlSessionFactory sqlSessionFactoryEvent() throws Exception{
+		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		sqlSessionFactoryBean.setDataSource(dataSourceEvent());
+		sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/sqlmaps/event/*.xml"));
+		return sqlSessionFactoryBean.getObject();
+	}
+
+	@Bean(name="sqlSessionTemplateEvent")
+	public SqlSessionTemplate sqlSessionTemplateEvent() throws Exception{
+		SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactoryEvent());
+		return sqlSessionTemplate;
+	}
+
+	@Bean
+	public MapperScannerConfigurer mapperScannerConfigurerEvent(){
+		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+		mapperScannerConfigurer.setBasePackage("com.air.interpark.mapper.event");
+		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactoryEvent");
+		return mapperScannerConfigurer;
+	}
+
+	@Bean
+	public DataSourceTransactionManager dataSourceTransactionManagerEvent() throws Exception{
+		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSourceEvent());
+		return dataSourceTransactionManager;
+	}
+	/* EVENT DB 설정 끝 */
+
+	/*FLIGHT DB 설정*/
+	@Bean(name="dataSourceTour")
+	public DataSource dataSourceFlight() throws Exception{
+		log.info("Make FLIGHT DB connection Pool");
+		Context ctx = new InitialContext();
+		DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/flight");
+
+		return dataSource;
+	}
+
+	@Bean(name="sqlSessionFactoryFlight")
+	public SqlSessionFactory sqlSessionFactoryFlight() throws Exception{
+		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		sqlSessionFactoryBean.setDataSource(dataSourceFlight());
+		sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/sqlmaps/flight/*.xml"));
+		return sqlSessionFactoryBean.getObject();
+	}
+
+	@Bean(name="sqlSessionTemplateFlight")
+	public SqlSessionTemplate sqlSessionTemplateFlight() throws Exception{
+		SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactoryFlight());
+		return sqlSessionTemplate;
+	}
+
+	@Bean
+	public MapperScannerConfigurer mapperScannerConfigurerFlight(){
+		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+		mapperScannerConfigurer.setBasePackage("com.air.interpark.mapper.flight");
+		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactoryFlight");
+		return mapperScannerConfigurer;
+	}
+
+	@Bean
+	public DataSourceTransactionManager dataSourceTransactionManagerFlight() throws Exception{
+		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSourceFlight());
+		return dataSourceTransactionManager;
+	}
+	/* FLIGHT DB 설정 끝 */
+
+	/* HOTEL DB 설정*/
+	@Bean(name="dataSourceTour")
+	public DataSource dataSourceHotel() throws Exception{
+		log.info("Make HOTEL DB connection Pool");
+		Context ctx = new InitialContext();
+		DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/hotel");
+
+		return dataSource;
+	}
+
+	@Bean(name="sqlSessionFactoryHotel")
+	public SqlSessionFactory sqlSessionFactoryHotel() throws Exception{
+		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		sqlSessionFactoryBean.setDataSource(dataSourceHotel());
+		sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/sqlmaps/hotel/*.xml"));
+		return sqlSessionFactoryBean.getObject();
+	}
+
+	@Bean(name="sqlSessionTemplateHotel")
+	public SqlSessionTemplate sqlSessionTemplateHotel() throws Exception{
+		SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactoryHotel());
+		return sqlSessionTemplate;
+	}
+
+	@Bean
+	public MapperScannerConfigurer mapperScannerConfigurerHotel(){
+		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+		mapperScannerConfigurer.setBasePackage("com.air.interpark.mapper.hotel");
+		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactoryHotel");
+		return mapperScannerConfigurer;
+	}
+
+	@Bean
+	public DataSourceTransactionManager dataSourceTransactionManagerHotel() throws Exception{
+		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSourceHotel());
+		return dataSourceTransactionManager;
+	}
+	/* HOTEL DB 설정 끝 */
+
+	/* SMS DB 설정 */
+	@Bean(name="dataSourceSms")
+	public DataSource dataSourceSms() throws Exception{
+		log.info("Make SMS DB connection Pool");
+		Context ctx = new InitialContext();
+		DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/sms");
+
+		return dataSource;
+	}
+
+	@Bean(name="sqlSessionFactorySms")
+	public SqlSessionFactory sqlSessionFactorySms() throws Exception{
+		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		sqlSessionFactoryBean.setDataSource(dataSourceSms());
+		sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/sqlmaps/sms/*.xml"));
+
+		return sqlSessionFactoryBean.getObject();
+	}
+
+	@Bean(name="sqlSessionTemplateSms")
+	public SqlSessionTemplate sqlSessionTemplateSms() throws Exception{
+		SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactorySms());
+		return sqlSessionTemplate;
+	}
+
+	@Bean
+	public MapperScannerConfigurer mapperScannerConfigurerSms(){
+		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+		mapperScannerConfigurer.setBasePackage("com.air.interpark.mapper.sms");
+		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactorySms");
+		return mapperScannerConfigurer;
+	}
+
+	@Bean
+	public DataSourceTransactionManager dataSourceTransactionManager_SMS() throws Exception{
+		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSourceSms());
+		return dataSourceTransactionManager;
+	}
+	/* SMS DB 설정 끝 */
+
+	/* TICKET2000 DB 설정*/
+	@Bean(name="dataSourceTour")
+	public DataSource dataSourceTicket2000() throws Exception{
+		log.info("Make TICKET2000 DB connection Pool");
+		Context ctx = new InitialContext();
+		DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/ticket2000");
+
+		return dataSource;
+	}
+
+	@Bean(name="sqlSessionFactoryTicket2000")
+	public SqlSessionFactory sqlSessionFactoryTicket2000() throws Exception{
+		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		sqlSessionFactoryBean.setDataSource(dataSourceTicket2000());
+		sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/sqlmaps/ticket2000/*.xml"));
+		return sqlSessionFactoryBean.getObject();
+	}
+
+	@Bean(name="sqlSessionTemplateTicket2000")
+	public SqlSessionTemplate sqlSessionTemplateTicket2000() throws Exception{
+		SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactoryTicket2000());
+		return sqlSessionTemplate;
+	}
+
+	@Bean
+	public MapperScannerConfigurer mapperScannerConfigurerTicket2000(){
+		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+		mapperScannerConfigurer.setBasePackage("com.air.interpark.mapper.ticket2000");
+		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactoryTicket2000");
+		return mapperScannerConfigurer;
+	}
+
+	@Bean
+	public DataSourceTransactionManager dataSourceTransactionManagerTicket2000() throws Exception{
+		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSourceTicket2000());
+		return dataSourceTransactionManager;
+	}
+	/* TICKET2000 DB 설정 끝 */
+
+	/* TOUR DB 설정*/
+	@Bean(name="dataSourceTour")
+	public DataSource dataSourceTour() throws Exception{
+		log.info("Make TOUR DB connection Pool");
+		Context ctx = new InitialContext();
+		DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/tour");
+
+		return dataSource;
+	}
+
+	@Bean(name="sqlSessionFactoryTour")
+	public SqlSessionFactory sqlSessionFactoryTour() throws Exception{
+		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		sqlSessionFactoryBean.setDataSource(dataSourceTour());
+		sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/sqlmaps/tour/*.xml"));
+		return sqlSessionFactoryBean.getObject();
+	}
+
+	@Bean(name="sqlSessionTemplateTour")
+	public SqlSessionTemplate sqlSessionTemplateTour() throws Exception{
+		SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactoryTour());
+		return sqlSessionTemplate;
+	}
+
+	@Bean
+	public MapperScannerConfigurer mapperScannerConfigurerTour(){
+		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+		mapperScannerConfigurer.setBasePackage("com.air.interpark.mapper.tour");
+		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactoryTour");
+		return mapperScannerConfigurer;
+	}
+
+	@Bean
+	public DataSourceTransactionManager dataSourceTransactionManagerTour() throws Exception{
+		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSourceTour());
+		return dataSourceTransactionManager;
+	}
+	/* TOUR DB 설정 끝 */
+
+	/* TOURCM DB 설정*/
+	@Bean(name="dataSourceTour")
+	public DataSource dataSourceTourCM() throws Exception{
+		log.info("Make TOURCM DB connection Pool");
+		Context ctx = new InitialContext();
+		DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/tourcm");
+
+		return dataSource;
+	}
+
+	@Bean(name="sqlSessionFactoryTourCM")
+	public SqlSessionFactory sqlSessionFactoryTourCM() throws Exception{
+		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		sqlSessionFactoryBean.setDataSource(dataSourceTourCM());
+		sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/sqlmaps/tourcm/*.xml"));
+		return sqlSessionFactoryBean.getObject();
+	}
+
+	@Bean(name="sqlSessionTemplateTourCM")
+	public SqlSessionTemplate sqlSessionTemplateTourCM() throws Exception{
+		SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactoryTourCM());
+		return sqlSessionTemplate;
+	}
+
+	@Bean
+	public MapperScannerConfigurer mapperScannerConfigurerTourCM(){
+		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+		mapperScannerConfigurer.setBasePackage("com.air.interpark.mapper.tourcm");
+		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactoryTourCM");
+		return mapperScannerConfigurer;
+	}
+
+	@Bean
+	public DataSourceTransactionManager dataSourceTransactionManagerTourCM() throws Exception{
+		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSourceTourCM());
+		return dataSourceTransactionManager;
+	}
+	/* TOURCM DB 설정 끝 */
+}
