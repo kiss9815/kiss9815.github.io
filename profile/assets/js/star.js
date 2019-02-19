@@ -3,8 +3,8 @@
       template = $('.template.shine'),
       stars = 300,
       sparkle = 20;
-  
-    
+
+
   var size = 'small';
   var createStar = function() {
     template.clone().removeAttr('id').css({
@@ -28,7 +28,7 @@
         // size = 'large';
       }
     }
-    
+
     createStar();
   }
 });
