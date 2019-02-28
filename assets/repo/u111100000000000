@@ -1,0 +1,85 @@
+package com.air.interpark.common;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class CookieUtil {
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+
+	public CookieUtil(HttpServletRequest request, HttpServletResponse response) {
+		this.request = request;
+		this.response = response;
+	}
+
+	public String getCookie(String key) throws Exception {//인자로 "interparkID"가 넘어오네요.
+		String cookValue = "";
+		Cookie cookies[] = request.getCookies();
+		if (cookies != null) {
+			for (int i = 0; i < cookies.length; i++) {
+				String sCookName = URLDecoder.decode(cookies[i].getName(), "UTF-8");
+				if (!key.equalsIgnoreCase(sCookName)) {
+					continue; //쿠키에서 ID값을 찾는다. 찾을때까지 루프
+				}
+
+				try {
+					//쿠키에서 ID값을 찾아서
+					cookValue = cookies[i].getValue();
+					//인코딩을 바꾸고,
+					cookValue = new String(cookValue.getBytes("ISO-8859-1"), "KSC5601");
+					//디코딩해서
+					cookValue = URLDecoder.decode(cookValue, "UTF-8");
+
+					break;
+
+				} catch (Exception e) {
+					cookValue = "";
+				}
+			}
+		}
+		//따옴표를 없애고 리턴한다.
+		return cookValue.replaceAll("\"", "");
+	}
+
+	public void removeAllCookie() throws Exception {
+		Cookie allCookies[] = request.getCookies();
+
+		if (allCookies != null) {
+			for (int inx = 0; inx < allCookies.length; inx++) {
+				if (!allCookies[inx].getName().equals("TourManager")) {
+					setCookie(allCookies[inx].getName(), "");
+					allCookies[inx].setMaxAge(0);
+				}
+			}
+		}
+	}
+
+	public void setCookie(String name, String value) throws Exception {
+		try {
+			value = new String(value.getBytes("euc-kr"), "8859_1");
+
+		} catch (UnsupportedEncodingException ex) {
+			ex.printStackTrace();
+		}
+
+		String mDomain = "";
+
+		String hostname = request.getServerName();// IP가 들어옵니다.
+		String aHostName[] = hostname.split(".");
+
+		for (int i = 1; i < aHostName.length; i++) {
+			mDomain += "." + aHostName[i];// 결국 도메인엔 IP가 다시 들어옵니다
+		}
+
+		Cookie cookie = new Cookie(name, value);
+
+		cookie.setDomain(mDomain);
+		cookie.setPath("/");
+		cookie.setSecure(false);
+		response.addCookie(cookie);
+	}
+}

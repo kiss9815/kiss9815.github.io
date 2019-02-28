@@ -1,0 +1,434 @@
+package com.air.interpark.common;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.StringTokenizer;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.air.interpark.vo.LoginInfo;
+import com.interpark.fw.security.Security;
+import com.interpark.fw.security.SecurityFactory;
+
+public class Utility {
+	public static String decryptSeed(String target) throws Exception {
+		return SecurityFactory.getSecurity(Security.TYPE_COOKIE).decrypt(target);
+	}
+
+	/**
+	 * @param file 리소스 파일명 (.properties)
+	 * @param key  찾을 리소스 명
+	 * @return 리소스
+	 * @throws Exception
+	 */
+	public static String getBundle(String file, String key) throws Exception {
+		String GwIp = null;
+		Locale locale = Locale.ENGLISH;
+		ResourceBundle rb = ResourceBundle.getBundle(file, locale);
+		GwIp = rb.getString(key);
+
+		return GwIp;
+	}
+
+	public static LoginInfo getLoginInfo(HttpServletRequest request) {
+		return (LoginInfo) request.getSession().getAttribute("loginInfo");
+	}
+
+	public static URLConnection connect(String urlString) {
+		URL url = null;
+		URLConnection  connection;
+
+		try {
+			url = new URL(Utility.getURLEncodedStr(urlString));
+			connection = url.openConnection();
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			return null;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return connection;
+	}
+
+	public static String getHttp(String urlSTr,String paramStr) throws Exception {
+
+		StringBuffer sb = new StringBuffer();
+		OutputStreamWriter os = null;
+
+		try {
+
+			String urlstr = urlSTr;
+			String param = paramStr;
+
+			URL url = new URL(urlstr);
+			URLConnection connection = url.openConnection();
+
+			connection.setDoOutput(true);
+			os = new OutputStreamWriter(connection.getOutputStream(),"UTF-8");
+			os.write(param);
+			os.flush();
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+			String temp = null;
+
+			while((temp = br.readLine()) != null) {
+				sb.append(temp);
+			}
+
+			br.close();
+
+		} catch (Exception e) {
+
+
+		} finally {
+			try{os.close();} catch(Exception ignore) {}
+		}
+
+		return sb.toString().trim();
+    }
+
+	/**
+	한글 파라메터 값을 인코딩합니다.
+	@param str 인코딩할 문자열
+	@return 인코딩된 문자열
+	*/
+	public static String getURLEncodedStr(String str) {
+		StringBuffer buffer = new StringBuffer();
+		int qIdx = str.indexOf("?");
+		if (qIdx == -1) {
+			return str;
+		}
+
+		String paramStr = str.substring(qIdx + 1);
+		buffer.append(str.substring(0, qIdx + 1));
+
+		StringTokenizer st = new StringTokenizer(paramStr, "&");
+		while (st.hasMoreTokens()) {
+			String param = st.nextToken().trim();
+			if (StringUtil.isNull(param)) {
+				continue;
+			}
+
+			String name = "";
+			String value = "";
+			try {
+				StringTokenizer st2 = new StringTokenizer(param, "=");
+				name = st2.nextToken().trim();
+				value = st2.nextToken().trim();
+			} catch (Exception e) { }
+
+			try {
+				value = URLEncoder.encode(value, "UTF-8");
+
+			} catch (Exception e) { }
+
+			buffer.append(name + "=" + value + "&");
+		}
+
+		return buffer.toString();
+	}
+
+	public static String readContents(URLConnection connection) throws Exception {
+		BufferedReader buffer = null;
+		InputStreamReader in = null;
+		StringBuffer outStr = new StringBuffer();
+
+		try {
+			in = new InputStreamReader(connection.getInputStream(), "euc-kr");
+			buffer = new BufferedReader(in);
+
+			String inputLine = "";
+			while ((inputLine = buffer.readLine()) != null) {
+				outStr.append(inputLine).append("\n");
+			}
+
+		} catch (Exception e) {
+			throw e;
+
+		} finally {
+			if (buffer != null) {
+				buffer.close();
+			}
+			if (in != null) {
+				in.close();
+			}
+		}
+
+		return outStr.toString();
+	}
+
+	public static String getNullStr(String param){
+		if( param == null ) {
+			param = "";
+		} else if( param.trim().equals("")) {
+			param = "";
+		}
+
+		return param.trim();
+	}
+
+	public static Boolean isNull(Object param) {
+		return param == null ? true : false;
+	}
+
+	public static Integer getNullInt(Integer param) {
+		return Utility.isNull(param) ? 0 : param;
+	}
+
+	public static Double getNullDouble(Double param) {
+		return Utility.isNull(param) ? 0 : param;
+	}
+
+	public static Long getNullLong(Long param) {
+		return Utility.isNull(param) ? 0 : param;
+	}
+
+	public static String convertDateFormat(Date sourceDate, String formatStr) throws Exception {
+
+		DateFormat formatter = null;
+		String returnDateStr = null;
+
+		try {
+			formatter = new SimpleDateFormat(formatStr);
+			returnDateStr = formatter.format(sourceDate);
+		} catch (Exception e) {
+			throw new Exception("날짜포맷 변환 에러! : " + e);
+		}
+
+		return returnDateStr;
+	}
+
+	/**
+     * 아이디 마스킹 처리
+     * @author 이돈혁
+     * @return String
+     * @param str 마스킹 처리 할 문자열
+     * @param maskingChar 대체할 문자
+     * @param maskingCnt 마스킹 처리 문자열 수
+     */
+    public static String maskingId(String str,String maskingChar,int maskingCnt){
+		try{
+				String maskingStr = "";
+				String masking = "";
+				str=str.trim();
+				if(str.indexOf("@")!=-1){
+					String mailId = str.split("@")[0];
+					String mailStr = "@"+str.split("@")[1];
+
+					if(mailId.length()>maskingCnt){
+						for(int i=0;i<maskingCnt;i++){
+							masking+=maskingChar;
+						}
+						maskingStr = mailId.substring(0,mailId.length()-maskingCnt)+masking+mailStr;
+					}else{
+						for(int i=0;i<mailId.length()-1;i++){
+							masking+=maskingChar;
+						}
+						maskingStr = mailId.substring(0,1)+masking+mailStr;
+					}
+				}else{
+					if(str.length()>maskingCnt){
+						for(int i=0;i<maskingCnt;i++){
+							masking+=maskingChar;
+						}
+						maskingStr = str.substring(0,str.length()-maskingCnt)+masking;
+					}else{
+						for(int i=0;i<str.length()-1;i++){
+							masking+=maskingChar;
+						}
+						maskingStr = str.substring(0,1)+masking;
+					}
+				}
+
+				return maskingStr;
+
+		}catch(Exception e){
+			return str;
+		}
+	}
+
+    /**
+     * 이름 마스킹 처리
+     * @author 이돈혁
+     * @return String
+     * @param str 마스킹 처리 할 문자열
+     * @param maskingChar 대체할 문자
+     */
+	public static String maskingName(String str,String maskingChar) {
+
+		try{
+				String maskingStr = "";
+				String masking = "";
+				str=str.trim();
+				str = str.replace("/", "");
+				if(str.length()>2){
+					for(int i=0;i<str.length()-2;i++){
+						masking+=maskingChar;
+					}
+					maskingStr= str.substring(0,1)+masking+ str.substring(str.length()-1);
+				}else{
+					maskingStr= str.substring(0,1)+"*";
+				}
+
+				return maskingStr;
+		}catch(Exception e){
+			return str;
+		}
+	}
+
+	/**
+     * 영문 이름 마스킹 처리
+     * @author 이돈혁
+     * @return String
+     * @param str 마스킹 처리 할 문자열
+     * @param maskingChar 대체할 문자
+     * @param maskingCnt  마스킹 처리 문자열 수
+     */
+	public static String maskingEngName(String str,String maskingChar,int maskingCnt) {
+
+		try{
+				String maskingStr = "*";
+				String masking = "";
+				str = str.trim();
+				str = str.replace("/", "");
+
+				if(str.length()>maskingCnt){
+					for(int i=0;i<maskingCnt;i++){
+						masking+=maskingChar;
+					}
+					maskingStr = masking+str.substring(maskingCnt);
+				}else{
+					for(int i=0;i<(str.length()-1);i++){
+						masking+=maskingChar;
+					}
+					if(str.length()==1){
+					maskingStr= "*";
+					}else{
+					maskingStr= masking+str.substring(str.length()-1);
+					}
+				}
+
+				return maskingStr;
+		}catch(Exception e){
+			return str;
+		}
+	}
+
+	public static String createStringFromURLWithParam(String url_name) throws Exception {
+
+		StringBuffer sb = new StringBuffer();
+		OutputStreamWriter os = null;
+
+		try {
+			int index = url_name.indexOf("?");
+			String urlstr = url_name.substring(0, index);
+			String param = url_name.substring(index + 1);
+
+			URL url = new URL(urlstr);
+			URLConnection connection = url.openConnection();
+
+			connection.setDoOutput(true);
+			os = new OutputStreamWriter(connection.getOutputStream());
+			os.write(param);
+			os.flush();
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+			String temp = null;
+
+			while ((temp = br.readLine()) != null) {
+				sb.append(temp);
+			}
+
+			br.close();
+
+		} catch (Exception e) {
+			throw new Exception("createStringFromURLWithParam : " + e);
+		} finally {
+			try {
+				os.close();
+			} catch (Exception ignore) {
+			}
+		}
+		return sb.toString().trim();
+	}
+
+	/**
+     * 인코딩 Default utf-8로 한다.
+     * @param callUrl
+     * @return
+     * @throws MalformedURLException
+     * @throws IOException
+     * @author 김병수
+     */
+    public static String createStringFromURL(String callUrl) throws MalformedURLException, IOException  {
+		return createStringFromURL(callUrl, "utf-8");
+	}
+
+    /**
+     * 인코딩 Setting 한 결과를 가져온다.
+     * @param callUrl
+     * @param strEnc
+     * @return
+     * @throws MalformedURLException
+     * @throws IOException
+     * @author 김병수
+     */
+    public static String createStringFromURL(String callUrl,String strEnc) throws MalformedURLException, IOException  {
+		return createStringFromURL(callUrl,strEnc, "GET", null);
+	}
+
+    /**
+     * 인코딩 Setting 한 결과를 가져온다.
+     * @param callUrl
+     * @param strEnc
+     * @param method
+     * @return
+     * @throws MalformedURLException
+     * @throws IOException
+     * @author 김병수
+     */
+    public static String createStringFromURL(String callUrl,String strEnc, String method, String params) throws MalformedURLException, IOException  {
+		URL url = new URL(callUrl);
+		URLConnection connection = url.openConnection();
+
+		connection.setUseCaches(false);
+		// POST일땐 전송한다.
+		if( method.toUpperCase() == "POST" ){
+			connection.setDoOutput(true);
+			connection.setConnectTimeout(30000);
+			OutputStreamWriter ws = new OutputStreamWriter(connection.getOutputStream());
+			try {
+				ws.write(params);
+			} catch(Exception e) {}
+			finally { ws.close(); }
+		}
+		BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), strEnc));
+		String temp = null;
+		StringBuffer sb = new StringBuffer();
+		while((temp = br.readLine()) != null) {
+			sb.append(temp);
+		}
+		br.close();
+		return sb.toString().trim();
+	}
+
+}

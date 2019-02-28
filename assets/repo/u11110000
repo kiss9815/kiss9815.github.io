@@ -1,0 +1,65 @@
+package com.air.interpark.common;
+
+import java.io.StringReader;
+import java.io.StringWriter;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+
+public class JaxbMarshaller {
+	public Marshaller getJaxbMarshaller(Object obj, String mediaType) throws Exception {
+		JAXBContext jaxbContext = JAXBContext.newInstance(obj.getClass());
+
+		Marshaller marshaller = jaxbContext.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+		return marshaller;
+	}
+
+	public String marshall(Object obj, String mediaType) throws Exception {
+		String returnString = "";
+
+		if("xml".equals(mediaType)) {
+			JAXBContext jaxbContext = JAXBContext.newInstance(obj.getClass());
+
+			Marshaller marshaller = jaxbContext.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+			StringWriter sw = new StringWriter();
+			marshaller.marshal(obj, sw);
+
+			returnString = sw.toString();
+
+		} else if("json".equals(mediaType)) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.setAnnotationIntrospector(new JaxbAnnotationIntrospector(objectMapper.getTypeFactory()));
+
+			returnString = objectMapper.writeValueAsString(obj);
+		}
+
+		return returnString;
+	}
+
+	public Object unMarshall(String contents, Class<?> clazz, String mediaType) throws Exception {
+		Object object = null;
+
+		if("xml".equals(mediaType)) {
+			JAXBContext jaxBContext = JAXBContext.newInstance(clazz);
+	        Unmarshaller unmarshaller = jaxBContext.createUnmarshaller();
+	        StringReader reader = new StringReader(contents);
+	        object = unmarshaller.unmarshal(reader);
+
+		} else if("json".equals(mediaType)) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.setAnnotationIntrospector(new JaxbAnnotationIntrospector(objectMapper.getTypeFactory()));
+
+			object = objectMapper.readValue(contents, clazz);
+		}
+
+		return object;
+	}
+}

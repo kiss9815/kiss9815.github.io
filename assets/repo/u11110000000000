@@ -1,0 +1,505 @@
+package com.air.interpark.common;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class DateUtil extends LogUtil {
+	public static String changeDateFormat(String originFormat, String dateString, String getFormat) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat(originFormat);
+			Date date = sdf.parse(dateString);
+
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+
+			sdf = new SimpleDateFormat(getFormat);
+			return sdf.format(cal.getTime());
+
+		} catch (Exception e) {
+			return "";
+		}
+	}
+
+	public static String getAddDay(String dateFormat, String date, int[] type, int[] amount) throws Exception {
+		if(type.length != amount.length) {
+			throw new Exception("type과 amount의 길이를 맞춰주세요.");
+		}
+
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+
+		sdf = new SimpleDateFormat(dateFormat);
+		Date today = sdf.parse(date);
+
+		cal.setTime(today);
+
+		int size = type.length;
+		for(int i = 0; i < size; i++) {
+			cal.add(type[i], amount[i]);
+		}
+
+		sdf = new SimpleDateFormat(dateFormat);
+
+		return sdf.format(cal.getTime());
+	}
+	/******************************
+	 * @param param time format   *
+	 * @return formatted dateTime *
+	 ******************************/
+	public static String getDateTime(String param){
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sim = new SimpleDateFormat(param);
+
+		return sim.format(cal.getTime());
+	}
+
+	public static String getDateTimeFromMills(long currentTimeMills, String format) {
+		SimpleDateFormat sim = new SimpleDateFormat(format);
+		return sim.format(currentTimeMills);
+	}
+
+	public static int whichDay(String s, String format) {
+		try {
+			java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat (format, java.util.Locale.KOREA);
+			java.util.Date date = check(s, format);
+			java.util.Calendar calendar = formatter.getCalendar();
+			calendar.setTime(date);
+			return calendar.get(java.util.Calendar.DAY_OF_WEEK);
+
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+
+	public static String whichDayKr(int dayInt) throws Exception {
+		switch (dayInt) {
+		case 1:
+			return "일";
+		case 2:
+			return "월";
+		case 3:
+			return "화";
+		case 4:
+			return "수";
+		case 5:
+			return "목";
+		case 6:
+			return "금";
+		case 7:
+			return "토";
+		default:
+			return "";
+		}
+	}
+
+	public static String getAddDayDetail(String fromFormat, String fromDate, int year, int month, int date, String getFormat) {
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat(fromFormat);
+
+		try {
+			sdf = new SimpleDateFormat(fromFormat);
+			Date today = sdf.parse(fromDate);
+
+			cal.setTime(today);
+			cal.add(Calendar.YEAR, year);
+			cal.add(Calendar.MONTH, month);
+			cal.add(Calendar.DATE, date);
+			sdf = new SimpleDateFormat(getFormat);
+
+		} catch (Exception e) {
+			log.error(e + "");
+		}
+
+		return sdf.format(cal.getTime());
+	}
+
+	public static java.util.Date check(String s, String format) throws java.text.ParseException {
+		// 파라메터 검사
+		if ( s == null ) {
+			throw new java.text.ParseException("date string to check is null", 0);
+		}
+
+		if ( format == null ) {
+			throw new java.text.ParseException("format string to check date is null", 0);
+		}
+
+		// 날짜 형식 지정
+		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat (format, java.util.Locale.KOREA);
+
+		// 검사
+		java.util.Date date = null;
+
+		try {
+			date = formatter.parse(s);
+
+		} catch(java.text.ParseException e)	{
+			throw new java.text.ParseException(" wrong date:\"" + s + "\" with format \"" + format + "\"", 0);
+		}
+
+		// 날짜 포멧이 틀린 경우
+		if ( !formatter.format(date).equals(s)) {
+			throw new java.text.ParseException("Out of bound date:\"" + s + "\" with format \"" + format + "\"",0);
+		}
+
+		// 리턴
+		return date;
+	}
+
+	/******************
+	 * @param Format  *
+	 * @param aDay	  *
+	 * @return		  *
+	 ******************/
+	public static String getAddDay(String format, int aDay) throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+
+		Calendar cal = Calendar.getInstance();
+		Date today = sdf.parse(getDateTime(format));
+
+		cal.setTime(today);
+		cal.add(Calendar.DATE, aDay);
+
+		return sdf.format(cal.getTime());
+	}
+
+	/**
+	 * @param fromFormat	fromDate's format
+	 * @param fromDate
+	 * @param aDay
+	 * @param getFormat		return format
+	 * @return
+	 */
+	public static String getAddDay(String fromFormat, String fromDate, int aDay, String getFormat) {
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat(fromFormat);
+
+		try {
+			sdf = new SimpleDateFormat(fromFormat);
+			Date today = sdf.parse(fromDate);
+
+			cal.setTime(today);
+			cal.add(Calendar.DATE, aDay);
+			sdf = new SimpleDateFormat(getFormat);
+
+		} catch (Exception e) {
+			log.error(e + "");
+		}
+
+		return sdf.format(cal.getTime());
+	}
+
+	public static String getAddDay(String fromDate, String fromFormat, int aDay, String getFormat, int type) throws Exception {
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat(fromFormat);
+
+		Date today = sdf.parse(fromDate);
+
+		cal.setTime(today);
+		cal.add(type, aDay);
+		sdf = new SimpleDateFormat(getFormat);
+
+		return sdf.format(cal.getTime());
+	}
+
+	public static String getAddMonth(String fromFormat, String fromDate, int aMonth, String getFormat) {
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat(fromFormat);
+
+		try {
+			sdf = new SimpleDateFormat(fromFormat);
+			Date today = sdf.parse(fromDate);
+
+			cal.setTime(today);
+			cal.add(Calendar.MONTH, aMonth);
+			sdf = new SimpleDateFormat(getFormat);
+
+		} catch (Exception e) {
+			log.error(e + "");
+		}
+
+		return sdf.format(cal.getTime());
+	}
+
+	/************************************************************************************************
+	 * @param 	format			date format defined by user like 'yyyy-MM-dd HH:mm:ss' and so on..	*
+	 * @param 	String Date		original data String '20120604123541' 								*
+	 * @return	change date format as parameter format String																*
+	 ************************************************************************************************/
+	public static String changeDateForm(String dateStr, String format){
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+
+		int year = Integer.parseInt(dateStr.substring(0, 4));
+		dateStr = dateStr.substring(4);
+		int month = Integer.parseInt(dateStr.substring(0, 2)) - 1;
+		dateStr = dateStr.substring(2);
+		int date = Integer.parseInt(dateStr.substring(0, 2));
+		dateStr = dateStr.substring(2);
+		int hourOfDay = Integer.parseInt(dateStr.substring(0, 2));
+		dateStr = dateStr.substring(2);
+		int minute = Integer.parseInt(dateStr.substring(0, 2));
+		dateStr = dateStr.substring(2);
+		int second = Integer.parseInt(dateStr.substring(0, 2));
+		dateStr = dateStr.substring(2);
+
+		cal.set(year, month, date, hourOfDay, minute, second);
+
+		return sdf.format(cal.getTime());
+	}
+
+	/*********************************************************
+	 * @param fromTime	time1 (yyyymmddhh24miss) 			 *
+	 * @param toTime	time2 (yyyymmddhh24miss)  			 *
+	 * @return	absolute value (time2 - time1) (millisecond) *
+	 *********************************************************/
+	public static long getTimeDiff(String fromTime, String toTime){
+		GregorianCalendar fromGc = new GregorianCalendar();
+		fromGc.set(GregorianCalendar.YEAR, Integer.parseInt(fromTime.substring(0, 4)));
+		fromGc.set(GregorianCalendar.MONTH, Integer.parseInt(fromTime.substring(4, 6)));
+		fromGc.set(GregorianCalendar.DAY_OF_MONTH, Integer.parseInt(fromTime.substring(6, 8)));
+		fromGc.set(GregorianCalendar.HOUR_OF_DAY, Integer.parseInt(fromTime.substring(8, 10)));
+		fromGc.set(GregorianCalendar.MINUTE, Integer.parseInt(fromTime.substring(10, 12)));
+		fromGc.set(GregorianCalendar.SECOND, Integer.parseInt(fromTime.substring(12, 14)));
+
+		GregorianCalendar toGc = new GregorianCalendar();
+		toGc.set(GregorianCalendar.YEAR, Integer.parseInt(toTime.substring(0, 4)));
+		toGc.set(GregorianCalendar.MONTH, Integer.parseInt(toTime.substring(4, 6)));
+		toGc.set(GregorianCalendar.DAY_OF_MONTH, Integer.parseInt(toTime.substring(6, 8)));
+		toGc.set(GregorianCalendar.HOUR_OF_DAY, Integer.parseInt(toTime.substring(8, 10)));
+		toGc.set(GregorianCalendar.MINUTE, Integer.parseInt(toTime.substring(10, 12)));
+		toGc.set(GregorianCalendar.SECOND, Integer.parseInt(toTime.substring(12, 14)));
+
+		return Math.abs((toGc.getTimeInMillis() - fromGc.getTimeInMillis()));
+	}
+
+	/**
+	 * @param fromTime		시간1
+	 * @param fromFormat	시간1 포맷
+	 * @param toTime		시간2
+	 * @param toFormat		시간2 포맷
+	 * @return	시간 1과 시간2 시간차이(초)
+	 * @throws Exception
+	 */
+	public static long getTimeDiff(String fromTime, String fromFormat, String toTime, String toFormat) throws Exception {
+		SimpleDateFormat fromDateFormat = new SimpleDateFormat(fromFormat);
+		Date fromDate = fromDateFormat.parse(fromTime);
+
+		SimpleDateFormat toDateFormat = new SimpleDateFormat(toFormat);
+		Date toDate = toDateFormat.parse(toTime);
+
+		return Math.abs((fromDate.getTime() - toDate.getTime())) / 1000;
+	}
+
+	/**
+	 * @param year
+	 * @param month
+	 * @return	last day of month
+	 * @throws java.text.ParseException
+	 */
+	public static String getLastDay(int year, int month) throws java.text.ParseException {
+		int day = 0;
+		switch(month) {
+			case  1:
+			case  3:
+			case  5:
+			case  7:
+			case  8:
+			case 10:
+			case 12: day = 31;break;
+			case  2: if ((year % 4) == 0) {
+					   	if ((year % 100) == 0 && (year % 400) != 0) {
+					   		day = 28;
+					   	} else {
+					   		day = 29;
+					   	}
+					 } else {
+						 day = 28;
+					 }
+						break;
+			default: day = 30;
+		}
+		return Integer.toString(day);
+	}
+
+	/**
+	 * @param fromTime	기준시작(yyyyMMddHHmmss)
+	 * @param toTime	기준마지막(yyyyMMddHHmmss)
+	 * @param start		시작시각(yyyyMMddHHmmss)
+	 * @param end		종료시각(yyyyMMddHHmmss)
+	 * @return	기준이 되는 fromTime ~ toTime 사이에 start ~ end 이 속해 있는 시간(초)
+	 */
+	public static int midNightBetweenOnOff(String fromTime, String toTime, String start, String end) {
+		int returnVal = 0;
+		long from = Long.parseLong(fromTime);
+		long to = Long.parseLong(toTime);
+		long on = Long.parseLong(start);
+		long off = Long.parseLong(end);
+
+		if(on < from && (off >= from && off <= to)) {
+			returnVal = (int) (getTimeDiff(end, fromTime) / 1000);
+
+		} else if((on >= from && on <= to) && (off >= from && off <= to)) {
+			returnVal = (int) (getTimeDiff(start, end) / 1000);
+
+		} else if((on >= from && on <= to) && (off > to)) {
+			returnVal = (int) (getTimeDiff(start, toTime) / 1000);
+
+		} else if((on <= from) && (off >= to)) {
+			returnVal = (int) (getTimeDiff(fromTime, toTime) / 1000);
+		}
+
+		return returnVal;
+	}
+
+	public static boolean isPassDepDate(String depDate) {
+		if("".equals(depDate)) return false;
+
+		int todate = Integer.parseInt(getDateTime("yyyyMMdd"));
+		return (todate > Integer.parseInt(depDate)) ? true : false;
+	}
+
+	/**
+	Date 객체의 값을 원하는 Format에 맞는 String형태로 반환합니다.
+	@param sourceDate Date 객체.
+	@param formatStr 원하는 포맷의 날짜 형식.( YYYY/MM/DD , YYYY-MM-DD HH:mm:ss ... )
+	@return String으로 변환된 날짜형태.
+	@exception Exception 포맷을 변환 중 에러 발생.
+	*/
+	public static String convertDateFormat(Date sourceDate, String formatStr) throws Exception {
+
+		DateFormat formatter = null;
+		String returnDateStr = null;
+
+		try {
+			formatter = new SimpleDateFormat(formatStr);
+			returnDateStr = formatter.format(sourceDate);
+		} catch (Exception e) {
+			throw new Exception("날짜포맷 변환 에러! : " + e);
+		}
+
+		return returnDateStr;
+	}
+
+	/**
+	@현재날짜 20070608 형식
+	**/
+	public static String getDate(){
+        SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
+        return simpledateformat.format(new Date());
+    }
+
+	/**
+    @입력된 날짜를 계산(일을 변경함).
+    @예) 20060303에서 -2 하면 20060301로 됨. -5하면 이전달로 변경됨.
+    @s : 현재날짜.
+    @i : 변경할 날짜값.
+    **/
+    public static String getDateDay(String s, int i){
+        String s1 = null;
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyyMMdd");
+        if(s.length() == 10){
+        	simpledateformat = new SimpleDateFormat("yyyy-MM-dd");
+        }
+
+        try
+        {
+            Date date = simpledateformat.parse(s);
+            calendar.setTime(date);
+            calendar.add(5, i);
+            date = calendar.getTime();
+            s1 = simpledateformat.format(date);
+        }
+        catch(ParseException parseexception)
+        {
+            s1 = s;
+        }
+        return s1;
+    }
+
+    /**
+	"년월일시"의 입력날짜 양식을 "년-월-일"의 다른양식으로 바꿔준다.
+	2007-05-25 by inyhan
+	@param sDate : "2007051809" 형식의 문자열
+	@return  "2007-05-18" 형식의 문자열
+	*/
+	public static String chgDateFormat2(String sDate){
+		String[] aDate = new String[3];
+		aDate[0] = sDate.substring(0,4);
+		aDate[1] = sDate.substring(4, 6);
+		aDate[2] = sDate.substring(6, 8);
+
+		return aDate[0] + "-" + aDate[1] + "-" + aDate[2];
+	}
+
+
+	/**
+	 * 해당 경로의 date 을 읽어들여 Int으로 반환합니다.
+	 * @param date 변경하고자 하는 날짜(YYYYMMDD형식)
+	 * @return Int로 해당요일 변경
+	 */
+	public static int getDayOfWeek(String date) throws Exception {
+		int dat_of_week = 100;
+
+		if (date.length() != 8) {
+			throw new Exception("8w자리 숫자만 변환 가능합니다.");
+		}
+
+		try {
+
+			String yy = date.substring(0, 4);
+			String mm = date.substring(4, 6);
+			String dd = date.substring(6, 8);
+
+			int y = Integer.parseInt(yy);
+			int m = Integer.parseInt(mm);
+			int d = Integer.parseInt(dd);
+
+			Calendar cal = new GregorianCalendar(y, m - 1, d);
+
+			dat_of_week = cal.get(Calendar.DAY_OF_WEEK); // 1:일 ~ 7:토
+
+		} catch (Exception e) {
+			throw new Exception("날짜포맷 변환 에러! : " + e);
+		}
+
+		return dat_of_week;
+	}
+
+	/**
+	@현재시간
+	**/
+    public static String getTime(){
+        SimpleDateFormat simpledateformat = new SimpleDateFormat("HHmm", Locale.KOREA);
+        return simpledateformat.format(new Date());
+    }
+
+    /**
+	 * @param startTime	시작시각(yyyyMMddHHmmss)
+	 * @param endTime	종료시각(yyyyMMddHHmmss)
+	 * @return 현재 시간이 startTime ~ endTime 사이에 속해 있는지 확인
+	 */
+	public static boolean getDateTimeBetween(String startTime, String endTime) {
+		boolean returnVal = false;
+		long now = Long.parseLong(getDateTime("yyyyMMddHHmmss"));
+		long start = Long.parseLong(startTime);
+		long end = Long.parseLong(endTime);
+
+		if(now >= start && now <= end ){
+			log.info("NowTime1 : "+now );
+			returnVal = true;
+		}
+
+		return returnVal;
+	}
+
+}

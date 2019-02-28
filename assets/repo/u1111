@@ -1,0 +1,539 @@
+package com.air.interpark.common;
+
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
+
+public class StringUtil {
+
+	public static int parseInt(String str) throws Exception{
+			if(str == null){
+				return 0;
+			}
+			return Integer.parseInt(str);
+	}
+
+	public static String replaceAll(String before, String after, Object stringOject) {
+		String replaceString = "";
+		if(null != stringOject){
+			replaceString = ((String) stringOject).replaceAll(before, after);
+		}
+		return replaceString;
+	}
+
+	public static int plus(String str) throws Exception {
+		StringTokenizer st = new StringTokenizer(str, ",");
+
+		int returnVal = 0;
+
+		while(st.hasMoreTokens()) {
+			returnVal += Integer.parseInt(st.nextToken());
+		}
+
+		return returnVal;
+	}
+
+	public static int division(int dividend, int divisor) throws Exception {
+		return dividend / divisor;
+	}
+
+	public static int division(long dividend, int divisor) throws Exception {
+		return (int) (dividend / divisor);
+	}
+
+	public static int mod(int dividend, int divisor) throws Exception {
+		return dividend % divisor;
+	}
+
+	public static String numberFormat(String str) throws Exception {
+		try {
+			long l = Long.parseLong(str);
+			return String.format("%,d", l);
+
+		} catch (Exception e) {
+			return str;
+		}
+	}
+
+	public static String numberFormat(long lon) throws Exception {
+			return String.format("%,d", lon);
+	}
+
+	public static String numberFormat(int integer) throws Exception {
+		return String.format("%,d", integer);
+	}
+
+	public static String decimalFormat(String str) throws Exception {
+		try {
+			DecimalFormat df = new DecimalFormat("###.##");
+			double number = Double.parseDouble(str);
+			return df.format(number);
+
+		} catch (Exception e) {
+			return str;
+		}
+	}
+
+	public static String fillZero(String str) throws Exception {
+		return String.format("%02d", Integer.parseInt(str));
+	}
+
+	public static String doubleToInt(String str) throws Exception {
+		return Integer.toString((int) Double.parseDouble(str));
+	}
+
+	public static String setParamReplace(String smsContent, String[] param) throws Exception {
+		try {
+			for (int i = 0; i < param.length; i++) {
+				if( smsContent.indexOf("<#")>=0){
+					String msg = smsContent.substring(smsContent.indexOf("<#"), (smsContent.indexOf(">", smsContent.indexOf("<#")) + 1));
+					smsContent = smsContent.replaceAll(msg, param[i]);
+				}
+			}
+
+		} catch (Exception e) {
+			throw new Exception(e.toString());
+		} finally {
+		}
+
+		return smsContent;
+	}
+
+	public static boolean isNull(String str) {
+		if (str == null || str.trim().length() == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	@ 널인경우 param2값을 Integer로 출력
+	@ param1 : 입력값
+	@ param2 : 변경할 값
+	**/
+	public static int getNullInt(String param1, int param2) throws Exception {
+		int intParam = 0;
+
+		if (isNull(param1)) {
+			intParam = param2;
+
+		} else {
+			param1 = param1.replaceAll(" ", "");
+			if (param1.trim().equals("")) {
+				intParam = param2;
+			} else {
+				intParam = Integer.parseInt(param1);
+			}
+		}
+
+		return intParam;
+	}
+
+	/**
+	@ 널인경우 param2값을 long로 출력
+	@ param1 : 입력값
+	@ param2 : 변경할 값
+	**/
+	public static long getNullLong(String param1, long param2) throws Exception {
+		long intParam = 0;
+
+		if (isNull(param1)) {
+			intParam = param2;
+
+		} else {
+			param1 = param1.replaceAll(" ", "");
+			if (param1.trim().equals("")) {
+				intParam = param2;
+			} else {
+				intParam = Long.parseLong(param1);
+			}
+		}
+
+		return intParam;
+	}
+
+	/**
+	@ 널인경우 param2값을 double로 출력
+	@ param1 : 입력값
+	@ param2 : 변경할 값
+	**/
+	public static double getNullDouble(Object param1, double param2) throws Exception {
+		double intParam = 0;
+
+		if (param1 == null) {
+			intParam = param2;
+
+		} else {
+			String transParam =  param1.toString();
+
+			transParam = transParam.replaceAll(" ", "");
+			if (transParam.trim().equals("")) {
+				intParam = param2;
+			} else {
+				intParam = Double.parseDouble(transParam);
+			}
+		}
+
+		return intParam;
+	}
+
+	public static String getNullStr(String param) {
+		if (param == null) {
+			param = "";
+
+		} else if (param.trim().equals("")) {
+			param = "";
+		}
+
+		return param.trim();
+	}
+
+	public static String getNullStr(String param, String replace) throws Exception {
+		if (param == null || param.trim().equals("")) {
+			param = replace;
+		}
+
+		return param;
+	}
+
+	/**
+	첫번째 인자로 입력된 문자열에서 두번째 인자로 입력된 모든 문자열을 세번째 인자로 입력된
+	문자열로 변환합니다.
+
+	@param str 대상 문자열
+	@param src 변환하고자 하는 문자열
+	@param des 변환될 문자열
+	@return  변환된 문자열
+	@exception Exception 내부적인 에러
+	*/
+	public static String replaceString(String str, String src, String des) throws Exception {
+		if (str == null) {
+			return null;
+		}
+
+		StringBuffer sb = new StringBuffer(str.length());
+		int startIdx = 0;
+		int oldIdx = 0;
+
+		while (true) {
+			startIdx = str.indexOf(src, startIdx);
+			if (startIdx == -1) {
+				sb.append(str.substring(oldIdx));
+				break;
+			}
+
+			sb.append(str.substring(oldIdx, startIdx));
+			sb.append(des);
+
+			startIdx += src.length();
+			oldIdx = startIdx;
+		}
+
+		return sb.toString();
+	}
+
+	public static String alphaNumericCheck(String str) {
+	    String valType = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	    String nameTmp = "";
+
+	    for(int i=0; i < str.length(); i++){
+	        if(valType.indexOf(str.charAt(i)) != -1){
+	            nameTmp += str.charAt(i);
+	        }
+	    }
+
+	    return nameTmp.toString();
+	}
+
+	public static String escape(String src) throws Exception {
+		int i;
+		char j;
+		StringBuffer tmp = new StringBuffer();
+		tmp.ensureCapacity(src.length() * 6);
+		for (i = 0; i < src.length(); i++) {
+			j = src.charAt(i);
+			if (Character.isDigit(j) || Character.isLowerCase(j)
+					|| Character.isUpperCase(j))
+				tmp.append(j);
+			else if (j < 256) {
+				tmp.append("%");
+				if (j < 16)
+					tmp.append("0");
+				tmp.append(Integer.toString(j, 16));
+			} else {
+				tmp.append("%u");
+				tmp.append(Integer.toString(j, 16));
+			}
+		}
+		return tmp.toString();
+	}
+
+	public static String unescape(String src) throws Exception {
+		StringBuffer tmp = new StringBuffer();
+		tmp.ensureCapacity(src.length());
+		int lastPos = 0, pos = 0;
+		char ch;
+		while (lastPos < src.length()) {
+			pos = src.indexOf("%", lastPos);
+			if (pos == lastPos) {
+				if (src.charAt(pos + 1) == 'u') {
+					ch = (char) Integer.parseInt(
+							src.substring(pos + 2, pos + 6), 16);
+					tmp.append(ch);
+					lastPos = pos + 6;
+				} else {
+					ch = (char) Integer.parseInt(
+							src.substring(pos + 1, pos + 3), 16);
+					tmp.append(ch);
+					lastPos = pos + 3;
+				}
+			} else {
+				if (pos == -1) {
+					tmp.append(src.substring(lastPos));
+					lastPos = src.length();
+				} else {
+					tmp.append(src.substring(lastPos, pos));
+					lastPos = pos;
+				}
+			}
+		}
+
+		return tmp.toString();
+	}
+
+	/**
+	 * @param xml String 으로 작성된 xml
+	 * @return	String XML 을 org.w3c.dom.Document로 변환합니다.
+	 * @throws Exception
+	 */
+	public Document stringToDocument(String xml) throws Exception {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+	    InputSource is = new InputSource(new StringReader(xml));
+		return builder.parse(is);
+	}
+
+	/**
+	 * @param node	org.w3c.dom.Node or document
+	 * @return	org.w3c.dom.Node 객체를 String 으로 변환합니다.
+	 */
+	public String nodeToString(Node node) throws Exception {
+		StringWriter sw = new StringWriter();
+		Transformer serializer = TransformerFactory.newInstance().newTransformer();
+		serializer.transform(new DOMSource(node), new StreamResult(sw));
+		return sw.toString().replaceAll("\n|\r", "");
+	}
+
+	public static String cutString(String str, int len) {
+		if (str == null) {
+			return null;
+		}
+		if (len < 0) {
+			return str;
+		} else if (len == 0) {
+			return "";
+		}
+
+		byte[] data = str.getBytes();
+		if (data.length < len) {
+			return str;
+		}
+
+		String temp = null;
+		while (true) {
+			try {
+				temp = new String(data, 0, len);
+				if (temp.length() == 0) {
+					len--;
+					continue;
+				}
+
+				break;
+			} catch (Exception e) {
+				len--;
+			}
+		}
+
+		return temp;
+	}
+
+	public static String allTrim(String st){
+		String result = "";
+		if (StringUtil.isNull(st)) {
+			return "입력된 글이 없습니다.(allTrim())";
+		}
+		String ck;
+		for(int i = 0; i < st.length(); i++) {
+			ck="";
+			ck=st.substring(i,i+1);
+			if (ck.compareTo(" ")!= 0) {
+				result=result+ck;
+			}
+		}
+		return result;
+	}
+
+	public static int stringLength(String str) {
+		return StringUtil.getNullStr(str).length();
+	}
+
+	public static String split(String str,String str2, int num) {
+		try{
+			return str.split(str2)[num];
+		}catch (Exception e) {
+			return str;
+		}
+	}
+
+	/**
+	StringTokenizer와 Split(1.4)를 보완한 문자열을 Tokening합니다.
+	@param str String 객체 - Tonkening될 대상 문자열.
+	@param delimiter String 객체 - 구분자(단일 Char가 아닌 문자열도 가능.)
+	@return 구분자로 잘려진 문자열들의 String[].
+	@exception Exception 문자열 Tokening과정 중 에러 발생.
+	*/
+	public static String[] split(String str, String delimiter) throws Exception {
+
+		String[]  returnValue = null;
+		ArrayList list        = null;
+
+		if (str == null) {
+			return null;
+		}
+
+		list = new ArrayList();
+		int startIdx = 0;
+		int oldIdx = 0;
+
+		while (true) {
+			startIdx = str.indexOf(delimiter, startIdx);
+			if (startIdx == -1) {
+				list.add(str.substring(oldIdx));
+				break;
+			}
+
+			list.add(str.substring(oldIdx, startIdx));
+
+			startIdx += delimiter.length();
+			oldIdx = startIdx;
+		}
+
+		returnValue = new String[list.size()];
+        for (int i = 0; i < returnValue.length; i++) {
+            returnValue[i] = (String) list.get(i);
+        }
+
+        return returnValue;
+	}
+
+	/**
+	 * 전화번호 string 데이터를 1,2,3 (처음/중간/끝) 으로 Split 하여 return
+	 */
+	public static String getTelSplit(String str, int position) {
+		try{
+			if(str.length() > 8){
+				//전화번호중 서울만 별도처리
+				if(str.substring(0, 2).equals("02")){
+					switch (position) {
+					case 1:
+						return str.substring(0, 2);
+					case 2:
+						return str.substring(2, str.length()-4);
+					case 3:
+						return str.substring(str.length()-4, str.length());
+					default:
+						return "";
+					}
+				}else{
+					switch (position) {
+					case 1:
+						return str.substring(0, 3);
+					case 2:
+						return str.substring(3, str.length()-4);
+					case 3:
+						return str.substring(str.length()-4, str.length());
+					default:
+						return "";
+					}
+				}
+			}else{
+				return "";
+			}
+		}catch (Exception e) {
+			return "";
+		}
+	}
+
+	/**
+	 * 소수값 음수 / 양수  구분
+	 * 1 : 양수
+	 * 2 : 음수
+	 */
+	public static String doubleCompare(String str1) {
+
+		if(Double.parseDouble(str1)>0){
+			return "1";
+		}else{
+			return "2";
+		}
+	}
+
+	 /**
+     * 숫자여부 체크(숫자이면 true므로 if절에서 !(not)설정 주의)
+     * @param param
+     * @return : 숫자이면 true, 아니면 false
+     */
+	public static boolean isNumber(String param) {
+
+		boolean numType = true;
+
+		if (getNullStr(param).equals("")) {
+			numType = false;
+		} else {
+			for (int i = 0; i < param.length(); i++) {
+				if (!Character.isDigit(param.charAt(i))) {
+					numType = false;
+					break;
+				}
+			}
+		}
+
+		return numType;
+	}
+
+	/**
+	 * xss 용 파라미터를 리턴한다~
+	 * @param param
+	 * @return
+	 */
+	public static String getXssParam(String param){
+		if( param == null) return null;
+
+		String resultParam = param;
+
+		resultParam = resultParam.replaceAll("<", "&lt;");
+		resultParam = resultParam.replaceAll(">", "&gt;");
+		resultParam = resultParam.replaceAll("\"", "");
+		resultParam = resultParam.replaceAll("'", "");
+		resultParam = resultParam.replaceAll("&", "");
+		resultParam = resultParam.replaceAll("%", "");
+		resultParam = resultParam.replaceAll("!", "");
+		resultParam = resultParam.replaceAll("--", "");
+
+		return resultParam;
+	}
+}

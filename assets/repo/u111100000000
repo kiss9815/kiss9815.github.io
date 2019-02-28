@@ -1,0 +1,106 @@
+package com.air.interpark.common;
+
+
+public class PagingUtil {
+	/**
+	 * @param pageNo		클릭한 페이지 번호
+	 * @param blockCount	한번에 보여줄 로우 수
+	 * @return	시작페이지 번호
+	 */
+	public static int getStartPageNo(int pageNo, int blockCount) {
+		return pageNo * blockCount - (blockCount - 1);
+	}
+
+	/**
+	 * @param pageNo		클릭한 페이지 번호
+	 * @param blockCount	한번에 보여줄 로우 수
+	 * @return	끝 페이지 번호
+	 */
+	public static int getEndPageNo(int pageNo, int blockCount) {
+		return pageNo * blockCount;
+	}
+
+	/**
+	 * @param currentPage 	현재 페이지
+	 * @param totalCount  	총 게시물의수
+	 * @param blockCount  	한번에 보여줄 로우 수
+	 * @param blockPage		한화면에 보여줄 페이지수
+	 * @param parameter
+	 * @return
+	 */
+	public static String getPaging(int currentPage, int totalCount, int blockCount, int blockPage) throws Exception {
+		//전체 페이지수
+		int totalPage =  totalCount / blockCount + (totalCount % blockCount == 0 ? 0 : 1);
+		//현재 페이지가 전체 페이지 수보다 크면 전체 페이지 수로 설정
+		if(currentPage > totalPage){
+			currentPage = totalPage;
+		}
+
+		//시작 페이지와 마지막 페이지 값 구하기.
+		int startPage = ((currentPage - 1) / blockPage) * blockPage + 1;
+		int endPage = startPage + blockPage - 1;
+
+		//마지막 페이지가 전체 페이지 수보다 크면 전체 페이지 수로 설정
+		if (endPage > totalPage) {
+			endPage = totalPage;
+		}
+
+		/**************************************************************************
+		 *****************  이제 HTML을 만들자!!  ************************************
+		 **************************************************************************/
+		StringBuffer pagingHtml = new StringBuffer();
+		//[처음] 페이지
+		if(currentPage == 1){
+			pagingHtml.append("<a class=\"prev first off\" href=\"javascript:;\">처음</a>");
+
+		} else {
+			pagingHtml.append("<a class=\"prev first\" href=\"javascript:clickPage('1', 'mypageListForm');\">처음</a>");
+		}
+
+		//[이전] 페이지
+		if (currentPage <= blockPage) {
+			pagingHtml.append("<a class=\"prev off\" href=\"javascript:;\">이전</a>");
+
+		} else {
+			pagingHtml.append("<a class=\"prev\" href=\"javascript:clickPage('" + (startPage - 1) + "', 'mypageListForm');\">이전</a>");
+		}
+
+		//[현재] 페이지
+		for (int i = startPage; i <= endPage; i++) {
+			if (i > totalPage) {
+				break;
+			}
+
+			if (i == currentPage) {
+				pagingHtml.append("<a class=\"on\" href=\"javascript:;\">" + i + "</a>");
+
+			} else {
+				pagingHtml.append("<a href=\"javascript:clickPage('" + i + "', 'mypageListForm');\">" + i + "</a>");
+			}
+		}
+
+		//[다음] 페이지
+		if (totalPage - startPage < blockPage) {
+			pagingHtml.append("<a class=\"next off\" href=\"javascript:;\">다음</a>");
+
+		} else {
+			pagingHtml.append("<a class=\"next\" href=\"javascript:clickPage('" + (startPage + 10) + "', 'mypageListForm');\">다음</a>");
+		}
+
+		//[마지막] 페이지
+		if (currentPage == totalPage) {
+			pagingHtml.append("<a class=\"next last off\" href=\"javascript:;\">끝</a>");
+
+		} else {
+			pagingHtml.append("<a class=\"next last\" href=\"javascript:clickPage('" + (totalPage) + "', 'mypageListForm');\">끝</a>");
+		}
+
+		pagingHtml.append("\n<input type=\"hidden\" name=\"page\" id=\"page\" value=\"1\">");
+
+		return pagingHtml.toString();
+	}
+
+	public static int getTotalPage(int totalCount, int blockCount) {
+		return totalCount / blockCount + (totalCount % blockCount == 0 ? 0 : 1);
+	}
+}

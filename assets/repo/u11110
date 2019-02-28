@@ -1,0 +1,47 @@
+package com.air.interpark.common;
+
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+
+public class MyIpAddress {
+	private static String ip;
+
+	private static void findLocalIpAddr() {
+		final String[] real_ip_addr = {"211.43.192.99", "180.70.98.234", "222.231.7.216", "222.231.7.218", "222.231.50.192", "222.231.50.193", "222.231.50.194", "222.231.7.165"};
+		List<String> my_ip_list = new ArrayList<String>();
+		InetAddress inetAddress = null;
+
+		try {
+			/** 시스템에서 얻어올 수 있는 모든 아이피 **/
+			for(Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+				NetworkInterface intf = en.nextElement();
+
+				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					inetAddress = enumIpAddr.nextElement();
+					my_ip_list.add(inetAddress.getHostAddress().toString());
+				}
+			}
+
+			for(String server_addr : real_ip_addr) {	/** 항공개발 자바 어플리케이션 서버장비들 **/
+				for(String address : my_ip_list) {	/** 시스템에서 얻어온 모든 아이피 **/
+					if(server_addr.equals(address) || address.indexOf("10.20.") > -1) {
+						ip = address;
+						break;
+					}
+				}
+			}
+
+		} catch (Exception ignore) {
+		}
+	}
+
+	public static String ip() throws Exception {
+		if(StringUtil.isNull(ip)) {
+			findLocalIpAddr();
+		}
+		return ip;
+	}
+}
