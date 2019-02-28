@@ -32,12 +32,30 @@ toc_sticky: true
    저장소에 저장되어 있는 빈(Bean)에 접근하기 위해서 개발자들이 컨테이너에서 제공하는 API를 이용하여
    빈(Bean)을 Lookup 하는 것
 .DI(Dependency Injection) - 의존성 주입
-   DL을 사용시에는 컨테이너에 대한 종속성이 증가하기 때문에, 이러한 종속성을 줄이기 위해서 DI를 사용
-       각 계층 사이, 각 객체(클래스)사이에 필요로 하는 의존 관계를 컨테이너가 자동으로 연결 해주는 것
-   각 클래스 사이의 의존 관계를 빈 설정(Bean Definition) 정보를 바탕으로 컨테이너가 자동으로 연결해주는 것
+객체 자체가 아니라 Framework에 의해 객체의 의존성이 주입되는 설계 패턴
+DL을 사용시에는 컨테이너에 대한 종속성이 증가하기 때문에, 이러한 종속성을 줄이기 위해서 DI를 사용
+각 계층 사이, 각 객체(클래스)사이에 필요로 하는 의존 관계를 컨테이너가 자동으로 연결 해주는 것
+각 클래스 사이의 의존 관계를 빈 설정(Bean Definition) 정보를 바탕으로 컨테이너가 자동으로 연결해주는 것
 
     - setter Injection
     - constructor Injection
+    - Field Injection
+
+-장점
+Reduced Dependencies
+  -종속성이 감소한다.
+  - components의 종속성이 감소하면 변경에 민감하지 않다.
+More Reusable Code
+  -재사용성이 증가한다.
+  -일부 인터페이스의 다른 구현이 필요한 경우, 코드를 변경할 필요없이 해당 구현을 사용하도록 components를 구성할 수 있다.
+More Testable Code
+  -더 많은 테스트 코드를 만들 수 있다.
+  -Mock 객체는 실제 구현의 테스트로 사용되는 객체
+  -종속성을 components에 주입할 수 있는 경우 이러한 종속성의 Mock 구현을 주입할 수 있다.
+  -예를 들어, Mock 객체가 올바른 객체를 반환할 때, null을 반환할 때, 예외가 발생할 때 모두 처리한다.
+More Readable Code
+  -코드를 읽기 쉬워진다.
+  -components의 종속성을 보다 쉽게 파악할 수 있으므로 코드를 쉽게 읽을 수 있다.
 
 
 ## IoC 용어 정리
@@ -69,3 +87,6 @@ toc_sticky: true
        객체를 관리하는 컨테이너
 
  . spring framework : IoC container, application context를 포함해서 스프링에서 제공하는 모든 기능을 통칭  
+
+ 참고문헌
+ > https://gmlwjd9405.github.io/2018/11/09/dependency-injection.html
