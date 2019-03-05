@@ -5,7 +5,7 @@ categories:
 last_modified_at: 2019-03-05T13:00:00+09:00
 toc: true
 tags: # 태그 사용
-    - java memory
+    - java
 
 ---
 
