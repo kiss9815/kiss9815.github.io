@@ -1,0 +1,21 @@
+
+<script type="text/javascript" src="/javascriptUtil.js"/>
+
+<div id="mask">
+</div>
+<div class="loader" style= "display:none;">
+</div>
+
+<button type="button" name="button" onclick="loading()">로딩시작 버튼</button>
+<button type="button" name="button" onclick="loadingStop()">로딩정지 버튼</button>
+
+<script type="text/javascript">
+  function loading(){
+      loadingUtil.loadingStart(150);
+  }
+
+  function loadingStop(){
+      loadingUtil.loadingEnd();
+  }
+
+</script>
