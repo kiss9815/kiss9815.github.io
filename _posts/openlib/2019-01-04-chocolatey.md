@@ -22,7 +22,7 @@ iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.p
 
 다른 경로에 설치할 경우 ChocolateyInstall 환경 변수에 설치할 폴더를 지정하고 수동으로 폴더 생성
 
-set ChocolateyInstall=d:\devel\choco
+set ChocolateyInstall=d:\devel\choco  
 
 
 패키지 검색/목록 보기
@@ -46,15 +46,16 @@ bower 1.8.0 [Approved]
 21 packages found.
 
 
-exact search
+###exact search
 기본 검색은 문자열이 포함된 모든 패키지를 나열하므로 정확하게 검색하려면 -e, --exact 사용
-
+```
 $ choco search nodejs -e
-
 
 nodejs 8.5.0 [Approved]
 1 packages found.
-모든 버전 표시
+```
+
+###모든 버전 표시
 -a, --all, --allversions, --all-versions 추가
 $ choco search nodejs -e -a --approved-only
 ---
@@ -72,13 +73,12 @@ toc_sticky: true
 nodejs 8.5.0 [Approved]
 1 packages found.
 
-list
+###list
 전체 패키지 목록
-
 choco list
 
 
-로컬에 설치된 패키지
+###로컬에 설치된 패키지
 choco list --local-only
 
 
