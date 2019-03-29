@@ -1,0 +1,18 @@
+---
+title: "스프링 스케쥴설정"
+categories:
+  - spring
+tags:
+  - Schedule
+last_modified_at: 2019-03-26T13:00:00+09:00
+toc: true
+toc_sticky: true
+---
+
+
+포트 2개 사용하는거 나옴
+
+
+
+참고문헌
+> https://supawer0728.github.io/2018/03/11/Spring-Cloud-Ribbon%EA%B3%BC-Eureka/
