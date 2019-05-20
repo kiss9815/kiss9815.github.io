@@ -57,5 +57,30 @@ npm run build
 
 빌드를 하게되면 index.js 에서 설정해준 경로로 빌드된 파일이 떨어지고, 스프링부트를 실행해서 해당 static 파일 경로로 접속하면 화면이 뜬다.
 
+### 3.X configure
+
+vue.config.js 파일을 제일 상위 폴더 frontend 아래에 만든다.
+assetsDir 폴더명이 outputDir 과 같아 static 이면 build 할때마다 해당 dir 파일 다 지우고 다시 만든다.
+outputDir 가 root dir 이고, assetsDir 이 outputDir 하위에 생성되는 vue 에서 생성되는 build dir 이다.
+```javascript
+//vue.config.js
+module.exports = {
+   assetsDir: "vuestatic",
+  outputDir: "../src/main/resources/static",
+  indexPath: "../templates/index.html",
+  devServer: {
+    proxy: "http://localhost"
+  },
+  chainWebpack: config => {
+    const svgRule = config.module.rule("svg");
+
+    svgRule.uses.clear();
+
+    svgRule.use("vue-svg-loader").loader("vue-svg-loader");
+  }
+};
+```
+
+
 참고문헌
 > https://itstory.tk/entry/Spring-Boot-Vuejs-%EC%97%B0%EB%8F%99%ED%95%98%EA%B8%B0

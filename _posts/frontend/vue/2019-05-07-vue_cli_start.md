@@ -37,9 +37,20 @@ npm install -g @vue/cli
 ```
 
 ```
+//시작하기
+vue create my-project
+```
+
+```
 //실행
 npm run serve
 ```
 
+```
+//관리자 vue 페이지
+vue ui
+```
+
+
 참고문헌
-> https://perfectacle.github.io/2019/05/07/jvm-gc-basic/?fbclid=IwAR1TFd87Xz7FMAKDmjnjJ9WaBRHXnK4lLTkfdUHQ5ABrCDMZNknsWd7Vre4
+> http://vuejs.kr/vue/vue-cli/2018/01/27/vue-cli-3/
