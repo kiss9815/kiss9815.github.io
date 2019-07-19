@@ -44,3 +44,6 @@ exclude 설정이 include 속성보다 우선순위
 management.endpoints.web.base-path=/application
 management.endpoints.web.path-mapping.health=healthcheck
 ```
+
+참고문헌
+> https://www.popit.kr/spring-actuator-%ea%b8%b0%ec%b4%88-%ec%84%a4%ec%a0%95-intellij-%ed%99%9c%ec%9a%a9%ed%95%98%ea%b8%b0/?fbclid=IwAR2jfrrB7SndUtfQB2PRWRU9MoRIeiKbfjs1hHOi6BvcfduNOUCZFJevqBQ
