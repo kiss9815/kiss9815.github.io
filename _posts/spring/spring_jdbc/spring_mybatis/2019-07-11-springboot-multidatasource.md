@@ -116,3 +116,4 @@ dbmall:
         useServerPrepStmts: true 
 ```
 
+SqlSessionTemplate >> SqlSessionFactory >> HikariDataSource

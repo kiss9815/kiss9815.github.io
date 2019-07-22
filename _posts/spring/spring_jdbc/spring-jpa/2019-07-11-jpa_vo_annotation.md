@@ -27,7 +27,10 @@ public class Tb_table {
 	
 	@Column(name = "name")
 	private String category_no;
-	
+
+  @IDClass
+  IDClass idClass;
+
 	@Convert(converter = DefaultTrueConverterToYnColumn.class)
 	@Column(name = "use_yn")
 	private String use_yn;
@@ -35,6 +38,12 @@ public class Tb_table {
 	@Column(name = "update_date", columnDefinition="DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date update_date;
+
+  @Column(name = "long_text", length=8000)
+	private String long_text;
+
+  @Column(name = "important_code",unique=true, nullable = false)
+	private String important_code;
 
 	@Builder
 	public Tb_table(String id, String name, String use_yn, Date update_date) {
@@ -46,14 +55,26 @@ public class Tb_table {
 	
 }
 ```
+@Entity
+-  테이블과 링크될 클래스임을 나타냄.
 
+@EmbeddedId, @IDClass
 - IDClass 로 따로 pk class 를 관리 할수 있음.
 - 사용하기 위해 @IdClass(IDClass.class) 를 class 상단에 붙이면 사용 가능
+
+위 예제 외 어노테이션
+@GeneratedValue
+  PK의 생성 규칙을 나타냅니다.
+  기본값은 AUTO 로, MySQL의 auto_increment와 같이 자동증가하는 정수형 값이 됨
+  bulk insert 시에는 사용하면 건건이 insert 가 됨  
+
+
 ```java
 @Getter
 @Setter
 @Embeddable
 public class IDClass implements Serializable{
+  private static final long serialVersionUID = 1L;
 
 	@Column(name = "id")
 	private String id;
