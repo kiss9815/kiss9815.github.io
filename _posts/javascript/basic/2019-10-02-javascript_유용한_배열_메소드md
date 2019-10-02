@@ -1,0 +1,33 @@
+---
+title: "javascript 유용한 배열 메소드"
+categories:
+  - javascript
+tags:
+  - javascript
+last_modified_at: 2019-10-02T13:00:00+09:00
+toc: true
+toc_sticky: true
+---
+
+
+## 자바스크립트 유용한 배열 메소드 map, filter, find, reduce
+
+## .map
+map 메소드는 요소를 일괄적으로 변경하는데 효과적
+map은 콜백 함수의 리턴을 모아서 새로운 배열을 만드는 것이 목적
+
+## .filter
+filter 메소드는 이름 그대로 요소들을 걸러내는 것이 목적
+리턴이 true인 요소만 모아서 새로운 배열을 만듬
+
+## .find
+find 메소드는 filter와 비슷하지만 단 하나의 요소만 리턴
+만약 발견하지 못하면? undefined
+
+## reduce
+reduce 메소드는 위에서 나온 메소드를 모두 대체할 수 있는 아주 유연한 메소드입니다. map, filter, find로 구현할 수 있는 문제라면 reduce로도 구현할 수 있습니다
+
+
+
+참고문헌
+> https://bblog.tistory.com/300 [각각 예시 설명 다 있음]
