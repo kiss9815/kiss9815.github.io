@@ -74,11 +74,9 @@ public class db1Config {
       config.addDataSourceProperty( "prepStmtCacheSqlLimit" , env.getProperty(prefix+"data-source-properties.prepStmtCacheSqlLimit") );	
       config.addDataSourceProperty( "useServerPrepStmts" , env.getProperty(prefix+"data-source-properties.useServerPrepStmts") );
       
-    	
-    	config = new HikariDataSource( config );
     	HikariDataSource dataSource = new HikariDataSource( config );
         
-        return dataSource;
+      return dataSource;
     }
     
    
@@ -121,3 +119,4 @@ JpaTransactionManager >> EntityManager >> HikariDataSource
 > https://cpdev.tistory.com/74
 > https://hojak99.tistory.com/498
 > https://jogeum.net/2   -- 제일 자세함
+> 
