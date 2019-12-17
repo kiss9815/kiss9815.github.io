@@ -34,6 +34,8 @@ external_url "http://gitlab.example.com:8929"
 ## 로그 보기
 docker logs -f gitlab
 
+## 도커접속
+sudo docker exec -it gitlab /bin/bash
 
 
 GitLab 서버의 요구 사양은 2Core, 4G RAM 입니다.
