@@ -38,4 +38,5 @@ Hystrix 가 적용된 메서드의 타임아웃을 지정한다. 이 타임아�
 
 
 참고문헌
-> https://multifrontgarden.tistory.com/238
+> https://multifrontgarden.tistory.com/238[설정값]
+> http://woowabros.github.io/experience/2017/08/21/hystrix-tunning.html[histrix세마포어설명]
