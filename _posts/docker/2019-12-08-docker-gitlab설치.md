@@ -32,7 +32,8 @@ external_url "http://gitlab.example.com:8929"
 여기에서 gitlab.example.com 은 본인 domain 이 아니여도 host_name 으로 사용해도 됨
 
 ## 로그 보기
-docker logs -f gitlab
+docker logs -f gitlab 
+docker logs -f 컨테이너ID 
 
 ## 도커접속
 sudo docker exec -it gitlab /bin/bash
