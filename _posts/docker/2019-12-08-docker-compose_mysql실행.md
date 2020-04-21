@@ -40,6 +40,12 @@ networks:
       name: UDN_Service
 ```
 
+```
+[계정@localhost ~/docker]$ > docker network create --driver bridge --subnet 10.10.10.0/24 --gateway 10.10.10.1 UDN_Database
+[계정@localhost ~/docker]$ > docker network create --driver bridge --subnet 10.10.20.0/24 --gateway 10.10.20.1 UDN_Service
+```
+
+
 ## 실행
 ```
 docker-compose up -d mysql
